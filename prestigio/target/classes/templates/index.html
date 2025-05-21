@@ -1,11 +1,24 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
-    <title>Bienvenido</title>
+    <title>Inicio</title>
 </head>
 <body>
 <h1>Acceso público</h1>
-<p>Esta es una página de acceso libre para todos los usuarios.</p>
-<a href="/registro">Registrarse</a>
+
+<!-- Mostrar si el usuario está autenticado -->
+<div sec:authorize="isAuthenticated()">
+    <p>Bienvenido, <span sec:authentication="name"></span></p>
+    <form th:action="@{/logout}" method="post">
+        <button type="submit">Cerrar sesión</button>
+    </form>
+</div>
+
+<!-- Mostrar si NO está autenticado -->
+<div sec:authorize="isAnonymous()">
+    <a th:href="@{/login}">Iniciar sesión</a> |
+    <a th:href="@{/registro}">Registrarse</a>
+</div>
 </body>
 </html>
