@@ -13,30 +13,30 @@ import java.util.Set;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Table(name = "usuario")
 public class Usuario {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String nombre;
 
-    @Column(unique = true, nullable = false)
+    @Column(nullable = false, unique = true)
     private String email;
-
-    private String password;
 
     private String telefono;
 
-    private Boolean estado = true;
+    @Column(nullable = false)
+    private String password;
 
-    private LocalDateTime fechaRegistro = LocalDateTime.now();
-
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "usuario_rol",
             joinColumns = @JoinColumn(name = "usuario_id"),
             inverseJoinColumns = @JoinColumn(name = "rol_id")
     )
     private Set<Rol> roles;
-}
 
+    // Getters y setters
+}
