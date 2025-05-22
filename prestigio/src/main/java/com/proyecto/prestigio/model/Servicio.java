@@ -8,6 +8,8 @@ import java.math.BigDecimal;
 @Entity
 @Table(name = "servicio")
 @Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class Servicio {

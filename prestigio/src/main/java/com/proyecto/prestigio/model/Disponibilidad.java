@@ -2,6 +2,7 @@ package com.proyecto.prestigio.model;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDateTime;
 
@@ -20,7 +21,9 @@ public class Disponibilidad {
     @JoinColumn(name = "servicio_id")
     private Servicio servicio;
 
+    @DateTimeFormat(pattern = "dd/MM/yyyy HH:mm")
     private LocalDateTime fechaHora;
+
 
     private boolean disponible = true;
 }

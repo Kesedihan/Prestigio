@@ -1,12 +1,11 @@
 package com.proyecto.prestigio.controller;
 
 import com.proyecto.prestigio.model.Cita;
-import com.proyecto.prestigio.model.Servicio;
+import com.proyecto.prestigio.model.Disponibilidad;
 import com.proyecto.prestigio.model.Usuario;
-import com.proyecto.prestigio.repository.ServicioRepository;
+import com.proyecto.prestigio.repository.DisponibilidadRepository;
 import com.proyecto.prestigio.repository.UsuarioRepository;
-import com.proyecto.prestigio.repository.CitaRepository; // IMPORTACIÓN RESTAURADA
-import org.springframework.format.annotation.DateTimeFormat;
+import com.proyecto.prestigio.repository.CitaRepository;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -16,44 +15,48 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.time.LocalDateTime;
-import java.util.List;
 
 @Controller
 @RequestMapping("/cliente")
 public class CitaClienteController {
 
-    private final ServicioRepository servicioRepository;
+    private final DisponibilidadRepository disponibilidadRepository;
     private final UsuarioRepository usuarioRepository;
     private final CitaRepository citaRepository;
 
-    public CitaClienteController(ServicioRepository servicioRepository, UsuarioRepository usuarioRepository, CitaRepository citaRepository) {
-        this.servicioRepository = servicioRepository;
+    public CitaClienteController(DisponibilidadRepository disponibilidadRepository,
+                                 UsuarioRepository usuarioRepository,
+                                 CitaRepository citaRepository) {
+        this.disponibilidadRepository = disponibilidadRepository;
         this.usuarioRepository = usuarioRepository;
         this.citaRepository = citaRepository;
     }
 
-    @GetMapping("/agendar") // ✅ corregido
+    @GetMapping("/agendar")
     public String mostrarFormularioAgendar(Model model) {
-        List<Servicio> servicios = servicioRepository.findByEstadoTrue();
-        model.addAttribute("servicios", servicios);
+        model.addAttribute("disponibilidades", disponibilidadRepository.findByDisponibleTrue());
         return "agendar-cita";
     }
 
-    @PostMapping("/agendar") // ✅ corregido
-    public String guardarCita(@RequestParam Long servicioId,
-                              @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime fecha) {
-
+    @PostMapping("/agendar")
+    public String guardarCita(@RequestParam Long disponibilidadId) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String email = auth.getName();
         Usuario usuario = usuarioRepository.findByEmail(email).orElseThrow();
 
-        Servicio servicio = servicioRepository.findById(servicioId).orElseThrow();
+        Disponibilidad disponibilidad = disponibilidadRepository.findById(disponibilidadId).orElseThrow();
+
+        if (!disponibilidad.isDisponible()) {
+            return "redirect:/cliente/agendar?error=ocupada";
+        }
+
+        disponibilidad.setDisponible(false);
+        disponibilidadRepository.save(disponibilidad);
 
         Cita cita = new Cita();
         cita.setUsuario(usuario);
-        cita.setServicio(servicio);
-        cita.setFecha(fecha);
+        cita.setServicio(disponibilidad.getServicio());
+        cita.setFecha(disponibilidad.getFechaHora());
         cita.setEstado("PENDIENTE");
 
         citaRepository.save(cita);

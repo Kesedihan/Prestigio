@@ -12,18 +12,13 @@
 
     <form th:action="@{/cliente/agendar}" method="post">
         <div class="form-group">
-            <label for="servicio">Servicio:</label>
-            <select class="form-control" id="servicio" name="servicioId" required>
-                <option th:each="servicio : ${servicios}"
-                        th:value="${servicio.id}"
-                        th:text="${servicio.nombre + ' - $' + servicio.precio}">
+            <label for="disponibilidad">Seleccione horario disponible:</label>
+            <select class="form-control" id="disponibilidad" name="disponibilidadId" required>
+                <option th:each="d : ${disponibilidades}"
+                        th:value="${d.id}"
+                        th:text="|${#temporals.format(d.fechaHora, 'dd/MM/yyyy HH:mm')} - ${d.servicio.nombre}|">
                 </option>
             </select>
-        </div>
-
-        <div class="form-group">
-            <label for="fecha">Fecha y hora:</label>
-            <input type="datetime-local" class="form-control" id="fecha" name="fecha" required>
         </div>
 
         <button type="submit" class="btn btn-primary">Agendar cita</button>
@@ -31,3 +26,4 @@
 </div>
 </body>
 </html>
+
