@@ -36,5 +36,29 @@
         </li>
     </ul>
 </div>
+<hr>
+<h3>Agendar cita para un cliente</h3>
+<form th:action="@{/admin/agenda/agendar}" method="post">
+    <div class="form-group">
+        <label>Cliente:</label>
+        <select class="form-control" name="usuarioId" required>
+            <option th:each="u : ${usuarios}" th:value="${u.id}" th:text="${u.nombre + ' - ' + u.email}">Usuario</option>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label>Disponibilidad:</label>
+        <select class="form-control" name="disponibilidadId" required>
+            <option th:each="d : ${disponibilidades}"
+                    th:value="${d.id}"
+                    th:text="|${#temporals.format(d.fechaHora, 'dd/MM/yyyy HH:mm')} - ${d.servicio.nombre}|">
+            </option>
+        </select>
+    </div>
+
+    <button type="submit" class="btn btn-success">Agendar cita</button>
+</form>
+
+
 </body>
 </html>

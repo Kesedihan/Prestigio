@@ -26,7 +26,7 @@
             <td th:text="${#temporals.format(cita.fecha, 'dd/MM/yyyy HH:mm')}">Fecha</td>
             <td th:text="${cita.estado}">Estado</td>
             <td>
-                <form th:action="@{/admin/citas/estado}" method="post" style="display:inline;">
+                <form th:if="${cita.estado != 'CANCELADA'}" th:action="@{/admin/citas/estado}" method="post" style="display:inline;">
                     <input type="hidden" name="citaId" th:value="${cita.id}"/>
                     <select name="estado" class="form-control d-inline" style="width: auto; display: inline;">
                         <option th:selected="${cita.estado == 'PENDIENTE'}">PENDIENTE</option>
@@ -34,6 +34,7 @@
                     </select>
                     <button type="submit" class="btn btn-sm btn-primary ml-2">Actualizar</button>
                 </form>
+                <span th:if="${cita.estado == 'CANCELADA'}">No modificable</span>
             </td>
         </tr>
         </tbody>

@@ -3,27 +3,66 @@
 <head>
     <meta charset="UTF-8">
     <title>Agendar Cita</title>
-    <link rel="stylesheet" th:href="@{/css/index.css}">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
 </head>
 <body>
 <div class="container mt-5">
-    <h2>Agendar nueva cita</h2>
+
+    <h2 class="mb-4">Citas pendientes</h2>
+    <table class="table table-sm table-bordered" th:if="${citasPendientes != null and citasPendientes.size() > 0}">
+        <thead>
+        <tr>
+            <th>Servicio</th>
+            <th>Fecha</th>
+            <th>Estado</th>
+            <th>Acciones</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="c : ${citasPendientes}">
+            <td th:text="${c.servicio?.nombre}">Servicio</td>
+            <td th:text="${#temporals.format(c.fecha, 'dd/MM/yyyy HH:mm')}">Fecha</td>
+            <td th:text="${c.estado}">Estado</td>
+            <td>
+                <form th:action="@{/cliente/cancelar-cita}" method="post">
+                    <input type="hidden" name="citaId" th:value="${c.id}"/>
+                    <button type="submit" class="btn btn-sm btn-danger"
+                            th:if="${c.estado == 'PENDIENTE'}">Cancelar</button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <p th:if="${citasPendientes == null or citasPendientes.size() == 0}">No tienes citas pendientes actualmente.</p>
+
+    <hr/>
+
+    <h2 class="mb-4">Agendar nueva cita</h2>
+
+    <form method="get" th:action="@{/cliente/agendar}" class="form-inline mb-3">
+        <label class="mr-2">Filtrar por servicio:</label>
+        <select name="servicioId" class="form-control mr-2" onchange="this.form.submit()">
+            <option th:value="${null}" th:selected="${servicioSeleccionado == null}">Todos</option>
+            <option th:each="s : ${servicios}"
+                    th:value="${s.id}"
+                    th:text="${s.nombre}"
+                    th:selected="${s.id == servicioSeleccionado}"></option>
+        </select>
+    </form>
 
     <form th:action="@{/cliente/agendar}" method="post">
         <div class="form-group">
-            <label for="disponibilidad">Seleccione horario disponible:</label>
-            <select class="form-control" id="disponibilidad" name="disponibilidadId" required>
+            <label>Selecciona una disponibilidad:</label>
+            <select class="form-control" name="disponibilidadId" required>
                 <option th:each="d : ${disponibilidades}"
                         th:value="${d.id}"
-                        th:text="|${#temporals.format(d.fechaHora, 'dd/MM/yyyy HH:mm')} - ${d.servicio.nombre}|">
+                        th:text="${#temporals.format(d.fechaHora, 'dd/MM/yyyy HH:mm')} + ' | ' + ${d.servicio?.nombre ?: 'Servicio desconocido'} + ' | Duración: ' + ${d.servicio?.duracion ?: 'N/A'} + ' min | $' + ${d.servicio?.precio ?: '0.00'}">
                 </option>
             </select>
         </div>
-
         <button type="submit" class="btn btn-primary">Agendar cita</button>
     </form>
+
 </div>
 </body>
 </html>
-
