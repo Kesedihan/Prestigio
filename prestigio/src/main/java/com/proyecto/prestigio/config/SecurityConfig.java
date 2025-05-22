@@ -27,8 +27,11 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/", "/registro","/login", "/css/**", "/js/**","/recursos/**", "/index").permitAll()
                         .requestMatchers("/api/usuarios/**", "/api/roles/**").hasRole("ADMIN")
+                        .requestMatchers("/cliente/**").hasRole("CLIENTE")
+                        .requestMatchers("/admin/**", "/api/**").hasRole("ADMIN")
                         .anyRequest().authenticated()
                 )
+
                 .formLogin(form -> form
                         .loginPage("/login")
                         .loginProcessingUrl("/procesar-login")
@@ -53,4 +56,6 @@ public class SecurityConfig {
     public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
         return config.getAuthenticationManager();
     }
+
+
 }

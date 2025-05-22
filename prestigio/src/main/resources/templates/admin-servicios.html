@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Servicios</title>
+    <link rel="stylesheet" th:href="@{/css/admin.css}">
+</head>
+<body>
+<div class="container mt-5">
+    <h2>Administrar servicios</h2>
+
+    <form th:action="@{/admin/servicios}" method="post">
+        <input type="text" name="nombre" placeholder="Nombre del servicio" required>
+        <textarea name="descripcion" placeholder="Descripción"></textarea>
+        <input type="number" name="duracion" placeholder="Duración (min)" required>
+        <input type="number" name="precio" placeholder="Precio" required>
+        <button type="submit">Agregar</button>
+    </form>
+
+    <hr>
+    <h4>Servicios existentes:</h4>
+    <ul>
+        <li th:each="s : ${servicios}" th:text="${s.nombre} + ' - $' + s.precio"></li>
+    </ul>
+</div>
+</body>
+</html>
+

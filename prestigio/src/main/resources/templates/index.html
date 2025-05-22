@@ -34,8 +34,11 @@
             <a class="nav-link" href="#">Galería</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Agendar cita</a>
-            <!-- SI el usuario NO ha iniciado sesión -->
+          <li sec:authorize="hasRole('CLIENTE')" class="nav-item">
+            <a class="nav-link" th:href="@{/cliente/agendar}">Agendar cita</a>
+          </li>
+
+          </li>
           <li class="nav-item ms-lg-4 mt-3 mt-lg-0" sec:authorize="isAnonymous()">
             <a class="btn btn-primary custom-btn-login" th:href="@{/login}">Iniciar Sesión</a>
           </li>
