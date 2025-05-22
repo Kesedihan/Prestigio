@@ -1,0 +1,128 @@
+/* Conteiner login */
+
+body {
+    background-image: url('../../recursos/fondo1.png');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    background-attachment: fixed;
+    min-height: 100vh;
+}
+
+.title {
+    text-align: center;
+    color: #c9a06c;
+    font-size: 39px;
+}
+
+.text-title {
+    text-align: center;
+}
+
+.containerlogin {
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    max-width: 650px;
+    width: 100%;
+    height: auto;
+    margin: 100px 100px 100px 100px;
+
+}
+
+.container-email,
+.container-password {
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+.container-email input,
+.container-password input {
+    padding: 15px;
+    width: 100%;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+}
+
+.label-email,
+.label-password {
+    font-size: 18px;
+    color: #c9a06c;
+    margin-bottom: 10px;
+}
+
+.checkbox-login {
+    color: #c9a06c;
+    align-items: start;
+    text-align: left;
+
+}
+
+.login-button-sesion {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin: auto;
+    margin-top: 35px;
+    padding: 10px 20px;
+    border-radius: 25px;
+    border: none;
+    background-color: #c9a06c;
+    color: #222;
+    font-size: 18px;
+    width: 60%;
+}
+
+.login-google-button {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    margin: auto;
+    margin-top: 15px;
+    gap: 8px;
+    padding: 10px 20px;
+    border-radius: 25px;
+    border: 1px solid #c9a06c;
+    background-color: white;
+    color: #222;
+    font-size: 16px;
+    font-weight: bold;
+    width: 70%;
+    cursor: pointer;
+}
+
+.img-google {
+    width: 24px;
+    height: 24px;
+}
+
+.link-registro {
+    text-align: center;
+    color: #222;
+    font-size: 18px;
+    margin-top: 20px;
+}
+
+.allLogIn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+
+.img-container {
+    width: 100%;
+    max-width: 650px;
+    display: flex;
+    justify-content: center;
+}
+
+.img-recuadro {
+    width: 100%;
+    max-width: 650px;
+}

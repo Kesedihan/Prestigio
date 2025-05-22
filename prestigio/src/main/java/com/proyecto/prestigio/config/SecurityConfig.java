@@ -25,7 +25,7 @@ public class SecurityConfig {
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/", "/registro", "/login", "/css/**", "/js/**").permitAll()
+                        .requestMatchers("/", "/registro","/login", "/css/**", "/js/**","/recursos/**", "/index").permitAll()
                         .requestMatchers("/api/usuarios/**", "/api/roles/**").hasRole("ADMIN")
                         .anyRequest().authenticated()
                 )
@@ -36,6 +36,7 @@ public class SecurityConfig {
                         .failureUrl("/login?error=true")
                         .permitAll()
                 )
+
                 .logout(logout -> logout
                         .logoutUrl("/logout")
                         .logoutSuccessUrl("/login?logout=true")

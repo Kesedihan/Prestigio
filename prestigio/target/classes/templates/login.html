@@ -1,24 +1,132 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Login</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" th:href="@{css/sesion/registro.css}">
+  <link rel="stylesheet" th:href="@{css/sesion/login.css}">
+  <link rel="stylesheet" th:href="@{css/navbar.css}">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+
+  <title>login</title>
 </head>
 <body>
-<h1>Iniciar sesión</h1>
+<header>
+  <nav class="navbar navbar-expand-lg bg-white shadow-sm py-3">
+    <div class="container">
+      <a class="navbar-brand" href="#">
+        <img th:src="@{/recursos/logo.png}" alt="Prestigio Logo" height="40">
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+        <ul class="navbar-nav align-items-lg-center">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="#">Inicio</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Productos</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Galería</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Agendar cita</a>
+          </li>
+          <li class="nav-item ms-lg-4 mt-3 mt-lg-0"> <a class="btn  btn-primary custom-btn-login" href="#">Iniciar Sesión</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+</header>
 
-<div th:if="${param.error}">
-    <p style="color:red;">Email o contraseña incorrectos</p>
+<!--Login-->
+<div class="allLogIn">
+  <form class="containerlogin" th:action="@{/procesar-login}" method="post">
+
+    <div>
+      <h1 class="title"> Ingresa o Registrate</h1>
+      <p class="text-title">Ingresa tus datos</p>
+    </div>
+    <fieldset>
+      <div>
+        <div class="container-email">
+          <label for="loginEmail" class="label-email">Email</label>
+          <input type="text" id="loginEmail" name="username" placeholder="Ingresa tu email" required>
+        </div>
+        <div class="container-password">
+          <label for="loginPassword" class="label-password">Contraseña</label>
+          <input type="password" id="loginPassword" name="password" placeholder="Ingresa tu contraseña" required>
+        </div>
+
+        <div class="checkbox-login">
+          <input type="checkbox" id="checkbox-log">
+          <label for="checkbox-log">Recordar mis datos</label>
+        </div>
+      </div>
+    </fieldset>
+    <div>
+      <button type="submit" class="login-button-sesion">Iniciar Sesión</button>
+      <button type="submit" class="login-google-button"><img class="img-google" src="/RECURSOS/logo-google.webp" alt="Google logo">Iniciar Sesión con Google</button>
+    </div>
+    <div>
+      <p class="link-registro" id="Registrate">¿No tienes una cuenta?
+        <a href="" class="link-registro" id="openModal">Registrate</a>
+      </p>
+    </div>
+  </form>
 </div>
-<div th:if="${param.logout}">
-    <p style="color:green;">Has cerrado sesión exitosamente</p>
+
+<!-- Modal de Registro -->
+<div id="modal" class="modal">
+  <div class="modal-content">
+    <span class="close">&times;</span> <!-- Botón para cerrar -->
+    <h2 class="title">Crea tu cuenta</h2>
+    <form method="post" action="/registro">
+
+      <fieldset>
+        <div class="form-row">
+          <div class="input-group">
+            <label for="nombre">Nombre</label>
+            <input type="text" id="nombre" name="nombre" placeholder="Tu nombre" required>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="input-group">
+            <label for="telefono">Número de teléfono</label>
+            <input type="tel" id="telefono" name="telefono" placeholder="+57 000000000" required>
+          </div>
+        </div>
+
+        <div class="input-group">
+          <label for="registroEmail">Email</label>
+          <input type="email" id="registroEmail" name="email" placeholder="Ingresa tu correo electrónico" required>
+        </div>
+
+        <div class="input-group">
+          <label for="registroPassword">Contraseña</label>
+          <input type="password" id="registroPassword" name="password" placeholder="Ingresa una contraseña" required>
+        </div>
+
+        <div class="checkbox-container">
+          <input type="checkbox" id="terminos" required>
+          <label for="terminos">Aceptar términos y condiciones</label>
+        </div>
+
+        <div class="button-container">
+          <button type="submit" class="register-btn">Registrarse</button>
+          <button type="button" id="cancelarBtn" class="cancel-btn">Cancelar</button>
+        </div>
+      </fieldset>
+    </form>
+  </div>
 </div>
 
-<form th:action="@{/procesar-login}" method="post">
-    <label>Email: <input type="text" name="username" required /></label><br/>
-    <label>Contraseña: <input type="password" name="password" required /></label><br/>
-    <button type="submit">Iniciar sesión</button>
-</form>
+<script th:src="@{/js/login.js}"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js" integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO" crossorigin="anonymous"></script>
 
-<a href="/">Volver</a>
 </body>
 </html>

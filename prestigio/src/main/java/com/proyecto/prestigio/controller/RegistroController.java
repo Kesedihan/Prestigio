@@ -4,6 +4,7 @@ import com.proyecto.prestigio.model.Rol;
 import com.proyecto.prestigio.model.Usuario;
 import com.proyecto.prestigio.repository.RolRepository;
 import com.proyecto.prestigio.repository.UsuarioRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Set;
 
 @Controller
+@Transactional
 public class RegistroController {
 
     private final UsuarioRepository usuarioRepository;
