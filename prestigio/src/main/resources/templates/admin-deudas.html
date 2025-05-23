@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Gestión de Deudas</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+</head>
+<body>
+<div class="container mt-4">
+
+    <h2 class="mb-4">Registrar Nueva Deuda</h2>
+    <form th:action="@{/admin/deudas/nueva}" method="post" class="mb-4">
+        <div class="form-row">
+            <input type="text" name="nombrePersona" placeholder="Nombre completo" required class="form-control col-md-3 mr-2">
+            <input type="text" name="descripcion" placeholder="Descripción" required class="form-control col-md-4 mr-2">
+            <input type="number" step="0.01" name="montoTotal" placeholder="Monto total" required class="form-control col-md-2 mr-2">
+            <button type="submit" class="btn btn-success col-md-2">Guardar</button>
+        </div>
+    </form>
+
+    <h2 class="mb-4">Tarjetas de Deuda</h2>
+    <div class="row">
+        <div class="col-md-4 mb-4" th:each="d : ${deudas}">
+            <div class="card border-info">
+                <div class="card-header bg-info text-white" th:text="${d.nombrePersona}"></div>
+                <div class="card-body">
+                    <p><strong>Deuda por:</strong> <span th:text="${d.descripcion}"></span></p>
+                    <p><strong>Monto Total:</strong> $<span th:text="${d.montoTotal}"></span></p>
+                    <p><strong>Abonado:</strong> $<span th:text="${d.montoAbonado}"></span></p>
+                    <p><strong>Saldo Pendiente:</strong> $<span th:text="${d.saldoPendiente}"></span></p>
+
+                    <form th:action="@{/admin/deudas/abono}" method="post" class="mt-2">
+                        <input type="hidden" name="deudaId" th:value="${d.id}">
+                        <div class="input-group">
+                            <input type="number" step="0.01" name="monto" placeholder="Monto abono" class="form-control" required>
+                            <div class="input-group-append">
+                                <button type="submit" class="btn btn-primary">Abonar</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+</body>
+</html>

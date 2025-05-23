@@ -1,64 +1,214 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
-    <title>Admin Agenda</title>
+    <title>Admin Dashboard - Prestigio</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
-</head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" th:href="@{/css/navbar.css}">
+    <link rel="stylesheet" th:href="@{/css/admin-agenda/admin-dashboard.css}">
 <body>
-<div class="container mt-5">
-    <h2>Agregar nuevo servicio</h2>
-    <form th:action="@{/admin/agenda/servicio}" method="post" class="mb-4">
-        <div class="form-group"><input type="text" class="form-control" name="nombre" placeholder="Nombre" required></div>
-        <div class="form-group"><textarea class="form-control" name="descripcion" placeholder="Descripción"></textarea></div>
-        <div class="form-group"><input type="number" class="form-control" name="duracion" placeholder="Duración (min)" required></div>
-        <div class="form-group"><input type="number" class="form-control" name="precio" placeholder="Precio" required></div>
-        <button type="submit" class="btn btn-success">Agregar Servicio</button>
-    </form>
 
-    <h2>Agregar disponibilidad</h2>
-    <form th:action="@{/admin/agenda/disponibilidad}" method="post" class="mb-4">
-        <div class="form-group">
-            <select class="form-control" name="servicioId" required>
-                <option th:each="s : ${servicios}" th:value="${s.id}" th:text="${s.nombre}">Servicio</option>
-            </select>
-        </div>
-        <div class="form-group">
-            <input type="datetime-local" class="form-control" name="fechaHora" required>
-        </div>
-        <button type="submit" class="btn btn-primary">Agregar Disponibilidad</button>
-    </form>
+<header>
+    <nav class="navbar navbar-expand-lg bg-white shadow-sm py-3">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <img th:src="@{/recursos/logo.png}" alt="Prestigio Logo" height="40">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+                <ul class="navbar-nav align-items-lg-center">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" th:href="@{/}">Inicio</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Productos</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Galería</a>
+                    </li>
+                    <li sec:authorize="hasRole('ADMIN')" class="nav-item">
+                        <a class="nav-link" th:href="@{/admin/agenda}">Agendar cita</a>
+                    </li>
+                    <li sec:authorize="hasRole('ADMIN')" class="nav-item">
+                        <a class="nav-link" th:href="@{/admin/citas}">Citas Agendadas</a>
+                    </li>
 
-    <h3>Disponibilidades activas</h3>
-    <ul class="list-group">
-        <li class="list-group-item" th:each="d : ${disponibilidades}" th:text="${d.fechaHora} + ' - ' + d.servicio.nombre">
-            Disponibilidad
-        </li>
-    </ul>
-</div>
-<hr>
-<h3>Agendar cita para un cliente</h3>
-<form th:action="@{/admin/agenda/agendar}" method="post">
-    <div class="form-group">
-        <label>Cliente:</label>
-        <select class="form-control" name="usuarioId" required>
-            <option th:each="u : ${usuarios}" th:value="${u.id}" th:text="${u.nombre + ' - ' + u.email}">Usuario</option>
-        </select>
+                    <li class="nav-item ms-lg-4 mt-3 mt-lg-0" sec:authorize="isAnonymous()">
+                        <a class="btn btn-primary custom-btn-login" th:href="@{/login}">Iniciar Sesión</a>
+                    </li>
+
+                    <li class="nav-item dropdown ms-lg-4 mt-3 mt-lg-0" sec:authorize="isAuthenticated()">
+                        <a class="btn btn-outline-secondary dropdown-toggle" href="#" id="userDropdown" role="button"
+                           data-bs-toggle="dropdown" aria-expanded="false">
+                            <span th:text="${nombreUsuario}">Usuario</span>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                            <li>
+                                <a class="dropdown-item" th:href="@{/mi-cuenta}">Mi cuenta</a>
+                            </li>
+                            <li>
+                                <form th:action="@{/logout}" method="post">
+                                    <button type="submit" class="dropdown-item">Cerrar sesión</button>
+                                </form>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</header>
+
+<div class="dashboard-wrapper">
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <h4>Panel de Administración</h4>
+        </div>
+        <a th:href="@{/admin/citas}" sec:authorize="hasRole('ADMIN')"  class="menu-link menu-item"><i class="fas fa-calendar-check menu-icon"></i>Citas Agendadas</a>
+        <ul class="sidebar-menu">
+            <li class="menu-item"><a href="#add-service-section" class="menu-link"><i class="fas fa-plus-circle menu-icon"></i> Agregar Servicio</a></li>
+            <li class="menu-item"><a href="#add-availability-section" class="menu-link"><i class="fas fa-calendar-plus menu-icon"></i> Agregar Disponibilidad</a></li>
+            <li class="menu-item"><a href="#schedule-client-appointment-section" class="menu-link"><i class="fas fa-calendar-check menu-icon"></i> Agendar Cita para Cliente</a></li>
+            <li class="menu-item"><a href="#available-appointments-list-section" class="menu-link active"><i class="fas fa-list-alt menu-icon"></i> Citas Disponibles</a></li>
+        </ul>
     </div>
 
-    <div class="form-group">
-        <label>Disponibilidad:</label>
-        <select class="form-control" name="disponibilidadId" required>
-            <option th:each="d : ${disponibilidades}"
-                    th:value="${d.id}"
-                    th:text="|${#temporals.format(d.fechaHora, 'dd/MM/yyyy HH:mm')} - ${d.servicio.nombre}|">
-            </option>
-        </select>
+    <div class="main-content-area">
+        <h1 class="dashboard-title text-center mb-5">Administrar Agenda</h1>
+
+        <section id="add-service-section" class="content-section form-card mb-5">
+            <h3 class="form-card-title">Agregar nuevo servicio</h3>
+            <form th:action="@{/admin/agenda/servicio}" method="post">
+                <div class="form-group form-group-custom">
+                    <label for="serviceName">Nombre del Servicio:</label>
+                    <input type="text" class="form-control form-control-custom" id="serviceName" name="nombre" placeholder="Nombre" required>
+                </div>
+                <div class="form-group form-group-custom">
+                    <label for="serviceDescription">Descripción:</label>
+                    <textarea class="form-control form-control-custom" id="serviceDescription" name="descripcion" placeholder="Descripción"></textarea>
+                </div>
+                <div class="form-group form-group-custom">
+                    <label for="serviceDuration">Duración (minutos):</label>
+                    <input type="number" class="form-control form-control-custom" id="serviceDuration" name="duracion" placeholder="Duración (min)" required>
+                </div>
+                <div class="form-group form-group-custom">
+                    <label for="servicePrice">Precio:</label>
+                    <input type="number" class="form-control form-control-custom" id="servicePrice" name="precio" placeholder="Precio" required>
+                </div>
+                <div class="d-flex justify-content-end">
+                    <button type="submit" class="btn btn-success custom-submit-btn">Agregar Servicio</button>
+                </div>
+            </form>
+        </section>
+
+        <section id="add-availability-section" class="content-section form-card mb-5">
+            <h3 class="form-card-title">Agregar disponibilidad</h3>
+            <form th:action="@{/admin/agenda/disponibilidad}" method="post">
+                <div class="form-group form-group-custom">
+                    <label for="availabilityService">Servicio:</label>
+                    <select class="form-control form-control-custom" id="availabilityService" name="servicioId" required>
+                        <option value="">Seleccione Servicio...</option>
+                        <option th:each="s : ${servicios}" th:value="${s.id}" th:text="${s.nombre}">Servicio</option>
+                    </select>
+                </div>
+                <div class="form-group form-group-custom">
+                    <label for="availabilityDateTime">Fecha y Hora:</label>
+                    <input type="datetime-local" class="form-control form-control-custom" id="availabilityDateTime" name="fechaHora" required>
+                </div>
+                <div class="d-flex justify-content-end">
+                    <button type="submit" class="btn btn-primary custom-submit-btn">Agregar Disponibilidad</button>
+                </div>
+            </form>
+        </section>
+
+        <section id="schedule-client-appointment-section" class="content-section form-card mb-5">
+            <h3 class="form-card-title">Agendar cita para un cliente</h3>
+
+            <!-- Filtro de clientes -->
+            <div class="form-group">
+                <label for="buscarCliente">Buscar cliente:</label>
+                <input type="text" class="form-control" id="buscarCliente" placeholder="Buscar por nombre, apellido, documento o email...">
+            </div>
+
+
+            <form th:action="@{/admin/agenda/agendar}" method="post">
+                <div class="form-group form-group-custom">
+                    <label for="usuarioSelect">Cliente:</label>
+                    <select id="usuarioSelect" class="form-control form-control-custom" name="usuarioId" required>
+                        <option value="">Seleccione Cliente...</option>
+                        <option th:each="u : ${usuarios}"
+                                th:value="${u.id}"
+                                th:data-search="|${u.nombre} ${u.apellido} ${u.email}|"
+                                th:text="${u.nombre + ' ' + u.apellido + ' - ' + u.email}">
+                        </option></select>
+                </div>
+                <div class="form-group form-group-custom">
+                    <label for="disponibilidadSelect">Disponibilidad:</label>
+                    <select id="disponibilidadSelect" class="form-control form-control-custom" name="disponibilidadId" required>
+                        <option value="">Seleccione Disponibilidad...</option>
+                        <option th:each="d : ${disponibilidades}"
+                                th:value="${d.id}"
+                                th:text="|${#temporals.format(d.fechaHora, 'dd/MM/yyyy HH:mm')} - ${d.servicio.nombre}|">
+                        </option>
+                    </select>
+                </div>
+                <div class="d-flex justify-content-end">
+                    <button type="submit" class="btn btn-success custom-submit-btn">Agendar cita</button>
+                </div>
+            </form>
+        </section>
+
+        <section id="available-appointments-list-section" class="content-section form-card mb-5">
+            <h3 class="form-card-title">Citas Disponibles</h3>
+            <div class="table-responsive">
+                <table class="table table-bordered custom-table">
+                    <thead>
+                    <tr>
+                        <th>Servicio</th>
+                        <th>Fecha y hora inicial</th>
+                        <th>Acción</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="d : ${disponibilidades}">
+                        <td th:text="${d.servicio.nombre}">PressOn</td>
+                        <td th:text="${#temporals.format(d.fechaHora, 'dd/MM/yyyy HH:mm')}">12/04/2025 10:00</td>
+                        <td>
+                            <a href="#schedule-client-appointment-section"><button class="btn btn-sm custom-assign-btn">Asignar</button></a>
+                        </td>
+
+                    </tr>
+
+
+                    <tr th:if="${#lists.isEmpty(disponibilidades)}">
+                        <td colspan="3" class="text-center">No hay citas disponibles.</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+    </div></div><footer class="footer mt-5 p-3 d-flex justify-content-between align-items-center">
+    <div class="footer-brand">Prestigio</div>
+    <div class="footer-copyright">
+        Copyright © 2024 Website. All rights reserved.
     </div>
+    <div class="social-icons">
+        <a href="#" class="social-icon-link mr-2"><i class="fab fa-facebook-f"></i></a>
+        <a href="#" class="social-icon-link mr-2"><i class="fab fa-instagram"></i></a>
+        <a href="#" class="social-icon-link mr-2"><i class="fab fa-linkedin-in"></i></a>
+        <a href="#" class="social-icon-link"><i class="fab fa-youtube"></i></a>
+    </div>
+</footer>
 
-    <button type="submit" class="btn btn-success">Agendar cita</button>
-</form>
-
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+<script th:src="@{/js/admin-dashboard/admin-dashboard.js}"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js" integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO" crossorigin="anonymous"></script>
 
 </body>
 </html>

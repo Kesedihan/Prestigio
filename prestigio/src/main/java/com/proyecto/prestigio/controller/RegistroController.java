@@ -32,6 +32,7 @@ public class RegistroController {
 
     @PostMapping("/registro")
     public String registrarUsuario(@RequestParam String nombre,
+                                   @RequestParam String apellido,
                                    @RequestParam String email,
                                    @RequestParam String telefono,
                                    @RequestParam String password) {
@@ -46,6 +47,7 @@ public class RegistroController {
 
         Usuario usuario = new Usuario();
         usuario.setNombre(nombre);
+        usuario.setApellido(apellido);
         usuario.setEmail(email);
         usuario.setTelefono(telefono);
         usuario.setPassword(passwordEncoder.encode(password));

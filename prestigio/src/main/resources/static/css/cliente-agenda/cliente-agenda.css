@@ -1,0 +1,312 @@
+/* Variables de color (copia las mismas variables de admin-dashboard.css para consistencia) */
+:root {
+    --primary-text-color: #313131;
+    --secondary-text-color: #6a6a6a;
+    --background-light-grey: #f5f5f5; /* Fondo general de la página */
+    --card-background: #ffffff; /* Fondo de las tarjetas de formulario y contenido */
+    --border-color-light: #e0e0e0;
+    --input-border-color: #d1d1d1;
+    --button-primary-bg: #ecd2a1; /* Color beige/marrón claro del botón principal de la imagen */
+    --button-primary-hover-bg: #ecd2a1;
+    --button-text-color: #444;
+    --title-color: #c9a96a;
+    --warning-bg: #fffbe6; /* Fondo amarillo claro para la caja de advertencia */
+    --warning-border: #ffe58f; /* Borde amarillo para la caja de advertencia */
+    --warning-text: #8c6d1d; /* Texto para la caja de advertencia */
+    --table-header-bg: #f5f5f5;
+    --table-border-color: #e0e0e0;
+    --cancel-button-bg: #dc3545; /* Rojo de Bootstrap para cancelar */
+    --cancel-button-hover-bg: #c82333;
+}
+
+/* Base global */
+* {
+    box-sizing: border-box; /* Asegurar que padding y border se incluyan en el ancho */
+}
+
+body {
+    background-color: #fbf6f2;
+    color: var(--primary-text-color);
+    font-family: Arial, sans-serif;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* Contenedor principal de la página de cliente */
+.client-page-container {
+    padding: 20px;
+    max-width: 900px; /* Ancho máximo similar al de la imagen "Reserva tu cita" */
+    margin: 40px auto; /* Centrar el contenedor y darle margen superior */
+    flex-grow: 1; /* Para que ocupe espacio y el footer se vaya abajo */
+}
+
+/* Títulos principales */
+.page-title {
+    color: var(--title-color);
+    font-size: 2.2em;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+/* Estilo para las tarjetas de contenido (similares a form-card) */
+.content-card {
+    background-color: var(--card-background);
+    border: 1px solid var(--border-color-light);
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    padding: 30px;
+    margin-bottom: 30px; /* Espacio entre tarjetas */
+}
+
+.content-card-title {
+    color: var(--primary-text-color);
+    font-size: 1.5em;
+    font-weight: bold;
+    margin-bottom: 25px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid var(--border-color-light);
+    text-align: center;
+}
+
+/* Estilos para los grupos de formulario */
+.form-group-custom {
+    margin-bottom: 20px;
+}
+.form-group-custom label {
+    font-weight: bold;
+    color: var(--secondary-text-color);
+    margin-bottom: 8px;
+    display: block;
+}
+
+/* Estilos para inputs y selects */
+.form-control-custom {
+    border: 1px solid var(--input-border-color);
+    border-radius: 5px;
+    padding: 10px 15px;
+    font-size: 1em;
+    color: var(--primary-text-color);
+    box-shadow: inset 0 1px 2px rgba(0,0,0,0.03);
+    width: 100%; /* Ocupar todo el ancho disponible */
+}
+
+.form-control-custom::placeholder {
+    color: var(--secondary-text-color);
+    opacity: 0.7;
+}
+
+.form-control-custom:focus {
+    border-color: var(--button-primary-bg);
+    box-shadow: 0 0 0 0.2rem rgba(128, 100, 67, 0.25);
+}
+
+/* Estilos para el botón principal (Agendar Cita) */
+.btn-primary-custom {
+    background-color: var(--button-primary-bg);
+    color: var(--button-text-color);
+    border: none;
+    border-radius: 5px;
+    padding: 10px 25px;
+    font-size: 1.1em;
+    font-weight: bold;
+    transition: background-color 0.2s ease;
+}
+
+.btn-primary-custom:hover {
+    background-color: var(--button-primary-hover-bg);
+    color: var(--button-text-color);
+}
+
+/* Estilos para la tabla de citas */
+.custom-table {
+    background-color: var(--card-background);
+    border: 1px solid var(--table-border-color);
+    border-radius: 5px;
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    overflow: hidden;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+
+.custom-table th {
+    background-color: var(--table-header-bg);
+    color: var(--secondary-text-color);
+    font-weight: bold;
+    border-bottom: 1px solid var(--table-border-color);
+    text-align: left;
+    padding: 12px 15px;
+}
+
+.custom-table td {
+    vertical-align: middle;
+    text-align: left;
+    padding: 10px 15px;
+    border-top: 1px solid var(--table-border-color);
+    color: var(--primary-text-color);
+}
+
+.custom-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.custom-table tbody tr:hover {
+    background-color: #f9f9f9;
+}
+
+/* Botones dentro de la tabla (Cancelar) */
+.btn-cancel-custom {
+    background-color: var(--cancel-button-bg);
+    color: var(--button-text-color);
+    border: none;
+    border-radius: 4px;
+    padding: 6px 15px;
+    font-size: 0.9em;
+    transition: background-color 0.2s ease;
+}
+
+.btn-cancel-custom:hover {
+    background-color: var(--cancel-button-hover-bg);
+}
+
+/* Estilos para el mensaje de "No tienes citas pendientes" */
+.no-appointments-message {
+    text-align: center;
+    color: var(--secondary-text-color);
+    font-size: 1.1em;
+    padding: 20px;
+    background-color: var(--card-background);
+    border: 1px solid var(--border-color-light);
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    margin-bottom: 30px;
+}
+
+/* Estilos para la caja de advertencia (exactamente igual que en el admin dashboard) */
+.warning-box {
+    background-color: var(--warning-bg);
+    border: 1px solid var(--warning-border);
+    border-left: 5px solid var(--warning-border);
+    border-radius: 5px;
+    padding: 20px;
+    margin: 40px auto;
+    max-width: 700px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+
+.warning-text {
+    color: var(--warning-text);
+    font-size: 0.95em;
+    margin-bottom: 10px;
+}
+
+.warning-list {
+    color: var(--warning-text);
+    font-size: 0.9em;
+    margin-left: 20px;
+    list-style-type: disc;
+}
+
+.warning-list li {
+    margin-bottom: 5px;
+}
+
+/* Estilo para el filtro de servicio */
+.filter-form-inline {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    background-color: var(--card-background);
+    border: 1px solid var(--border-color-light);
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    padding: 20px;
+}
+.filter-form-inline label {
+    margin-right: 10px;
+    font-weight: bold;
+    color: var(--primary-text-color);
+}
+.filter-form-inline .form-control-custom {
+    flex-grow: 1; /* Permite que el select crezca */
+    max-width: 300px; /* Limita el ancho del select para que no sea enorme */
+}
+
+
+/* Footer Styles (asumiendo que tendrás un footer similar al de tu página de inicio) */
+.footer {
+    background-color: #e0e0e0;
+    border-top: 1px solid #d0d0d0;
+    color: var(--secondary-text-color);
+    font-size: 0.9em;
+    padding: 15px 30px;
+    text-align: center;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: auto; /* Empuja el footer al final de la página */
+}
+
+.footer-brand {
+    font-family: 'Georgia', serif;
+    font-size: 1.5em;
+    color: var(--primary-text-color);
+    margin-right: 20px;
+}
+
+.footer-copyright {
+    flex-grow: 1;
+    text-align: center;
+}
+
+.social-icons a {
+    color: var(--secondary-text-color);
+    font-size: 1.2em;
+    margin-left: 10px;
+    transition: color 0.2s ease-in-out;
+}
+
+.social-icons a:hover {
+    color: var(--button-primary-bg);
+}
+
+
+/* Responsivo */
+@media (max-width: 768px) {
+    .client-page-container {
+        margin: 20px auto;
+        padding: 15px;
+    }
+    .page-title {
+        font-size: 1.8em;
+        margin-bottom: 30px;
+    }
+    .content-card {
+        padding: 20px;
+    }
+    .filter-form-inline {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .filter-form-inline label,
+    .filter-form-inline .form-control-custom {
+        width: 100%;
+        margin-right: 0;
+        margin-bottom: 10px;
+    }
+    .footer {
+        flex-direction: column;
+        font-size: 0.8em;
+        padding: 10px 15px;
+    }
+    .footer-brand {
+        margin-bottom: 10px;
+        margin-right: 0;
+    }
+    .social-icons {
+        margin-top: 10px;
+    }
+}

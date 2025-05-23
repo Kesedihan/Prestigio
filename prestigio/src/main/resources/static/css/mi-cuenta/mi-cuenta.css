@@ -1,0 +1,269 @@
+/* Colores base (ajustados a la imagen) */
+:root {
+    --primary-text-color: #313131; /* Un gris oscuro para texto general */
+    --secondary-text-color: #6a6a6a; /* Gris más claro para descripciones/labels */
+    --background-light-grey: #f5f5f5; /* Fondo general y elementos claros */
+    --border-color-light: #e0e0e0; /* Bordes suaves */
+    --card-background: #ffffff; /* Fondo de las tarjetas */
+    --button-background-light: #f1f1f1; /* Botones claros */
+    --button-border-light: #cccccc; /* Borde de botones claros */
+    --accent-blue: #007bff; /* Azul para hover de iconos sociales, etc. */
+    --status-realizada: #28a745; /* Verde para "Realizada" */
+    --status-cancelada: #dc3545; /* Rojo para "Cancelada" */
+    --status-pendiente: #ffc107; /* Amarillo para "Pendiente" */
+}
+
+/* General Body Styles */
+body {
+    font-family: Arial, sans-serif;
+    background-color: var(--background-light-grey);
+    color: var(--primary-text-color);
+}
+
+.main-container {
+    padding-top: 50px;
+    padding-bottom: 50px;
+}
+
+/* Section Titles and Descriptions */
+.section-title {
+    color: var(--primary-text-color);
+    font-weight: bold;
+}
+
+.section-description {
+    color: var(--secondary-text-color);
+    font-size: 0.95em;
+    max-width: 700px;
+    margin: 0 auto 30px auto;
+}
+
+/* Personal Information Section */
+.personal-info-section .card {
+    border: 1px solid var(--border-color-light);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+    background-color: var(--card-background);
+}
+
+.profile-header {
+    margin-bottom: 25px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--border-color-light);
+}
+
+.profile-icon {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    background-color: #dedede; /* Un gris ligeramente más oscuro que el fondo general */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 3em;
+    color: #999;
+    border: 2px solid #bdbdbd; /* Borde del ícono */
+    box-sizing: border-box;
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path fill="%23999" d="M224 256A128 128 0 1 0 224 0a128 128 0 1 0 0 256zm-45.7 48C79.8 304 0 383.8 0 482.3C0 498.7 13.3 512 29.7 512H418.3c16.4 0 29.7-13.3 29.7-29.7C448 383.8 368.2 304 269.7 304H178.3z"/></svg>');
+    background-size: 50%;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+
+.profile-header h3 {
+    font-size: 1.8em;
+    color: var(--primary-text-color);
+    margin-top: 0;
+}
+
+.info-item {
+    font-size: 1.1em;
+    padding-bottom: 10px;
+    margin-bottom: 15px;
+}
+
+.info-label {
+    color: #c9a06c;
+    font-weight: bold;
+    min-width: 150px;
+}
+
+.info-value {
+    color: var(--primary-text-color);
+    font-weight: normal;
+}
+
+.custom-btn-secondary {
+    background-color: var(--button-background-light);
+    border: 1px solid var(--button-border-light);
+    color: var(--secondary-text-color);
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-weight: bold;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.custom-btn-secondary:hover {
+    background-color: #e6e6e6; /* Un poco más oscuro en hover */
+    border-color: #b0b0b0;
+    color: var(--primary-text-color);
+}
+
+/* Appointments Section */
+.custom-agenda-btn {
+    background-color: #c9a06c; /* Un gris ligeramente más claro que el fondo general */
+    border: 1px solid #ced4da;
+    color: #222;
+    padding: 12px 30px;
+    font-size: 1.1em;
+    font-weight: bold;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.08);
+}
+
+.custom-agenda-btn:hover {
+    background-color: #dee2e6;
+    border-color: #bbbbbb;
+    color: #000;
+}
+
+.horizontal-line {
+    border-bottom: 1px solid var(--border-color-light);
+    width: 100%;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.appointment-tabs .btn {
+    padding: 10px 20px;
+    border-radius: 5px 5px 0 0;
+    border: 1px solid var(--border-color-light);
+    border-bottom: none;
+    background-color: var(--button-background-light);
+    color: var(--secondary-text-color);
+    font-weight: bold;
+}
+
+.appointment-tabs .btn.active-tab {
+    background-color: var(--card-background); /* Blanco para la pestaña activa */
+    border-color: var(--border-color-light);
+    color: var(--primary-text-color);
+    position: relative;
+    z-index: 1;
+    border-bottom: 2px solid var(--card-background); /* Para que parezca que la pestaña activa está sobre la línea */
+}
+
+.appointment-tabs .btn.inactive-tab {
+    background-color: #f8f8f8; /* Ligeramente más claro para inactiva */
+    color: #777;
+}
+
+.appointment-table {
+    background-color: var(--card-background);
+    border: 1px solid var(--border-color-light);
+    border-radius: 0 5px 5px 5px; /* Ajusta los bordes para coincidir con la pestaña */
+    border-top: 1px solid var(--border-color-light);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    margin-top: -1px; /* Para que el borde superior se alinee con la pestaña */
+}
+
+.appointment-table th {
+    background-color: #f8f8f8; /* Un gris muy claro para los encabezados de tabla */
+    color: var(--secondary-text-color);
+    font-weight: bold;
+    border-bottom: 1px solid var(--border-color-light);
+    text-align: center;
+    padding: 12px;
+}
+
+.appointment-table td {
+    vertical-align: middle;
+    text-align: center;
+    padding: 10px;
+    border-top: 1px solid #f0f0f0; /* Un borde más suave entre celdas */
+}
+
+.status-pill {
+    display: inline-block;
+    padding: 5px 12px;
+    border-radius: 15px;
+    font-size: 0.85em;
+    font-weight: bold;
+    color: white;
+    text-transform: uppercase;
+}
+
+.status-realizada {
+    background-color: var(--status-realizada); /* Verde */
+}
+
+.status-cancelada {
+    background-color: var(--status-cancelada); /* Rojo */
+}
+
+.status-pendiente {
+    background-color: var(--status-pendiente); /* Amarillo */
+    color: var(--primary-text-color); /* Texto oscuro para contraste */
+}
+
+/* Footer Styles */
+.footer {
+    background-color: #e0e0e0; /* Gris más oscuro para el footer */
+    border-top: 1px solid #d0d0d0;
+    color: var(--secondary-text-color);
+    font-size: 0.9em;
+    padding: 15px 30px;
+    text-align: center;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.footer-brand {
+    font-family: 'Georgia', serif; /* Tipo de letra similar al de la imagen */
+    font-size: 1.5em;
+    color: var(--primary-text-color);
+    margin-right: 20px;
+}
+
+.footer-copyright {
+    flex-grow: 1; /* Permite que el copyright ocupe el espacio disponible */
+    text-align: center;
+}
+
+.social-icons a {
+    color: var(--secondary-text-color);
+    font-size: 1.2em;
+    margin-left: 10px;
+    transition: color 0.2s ease-in-out;
+}
+
+.social-icons a:hover {
+    color: var(--accent-blue); /* Color de hover para los iconos */
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .profile-header {
+        flex-direction: column;
+        text-align: center;
+    }
+    .profile-icon {
+        margin-bottom: 15px;
+        margin-right: 0;
+    }
+    .info-item {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .info-label {
+        margin-bottom: 5px;
+    }
+    .footer {
+        flex-direction: column;
+        text-align: center;
+    }
+    .footer-brand, .footer-copyright, .social-icons {
+        margin-bottom: 10px;
+    }
+}

@@ -38,7 +38,14 @@
             <a class="nav-link" th:href="@{/cliente/agendar}">Agendar cita</a>
           </li>
 
+          <li class="nav-item">
+          <li sec:authorize="hasRole('ADMIN')" class="nav-item">
+            <a class="nav-link" th:href="@{/admin/agenda}">Agendar cita</a>
           </li>
+          <li sec:authorize="hasRole('ADMIN')" class="nav-item">
+            <a class="nav-link" th:href="@{/admin/citas}">Citas Agendadas</a>
+          </li>
+
           <li class="nav-item ms-lg-4 mt-3 mt-lg-0" sec:authorize="isAnonymous()">
             <a class="btn btn-primary custom-btn-login" th:href="@{/login}">Iniciar Sesión</a>
           </li>
@@ -60,8 +67,6 @@
               </li>
             </ul>
           </li>
-
-
         </ul>
       </div>
     </div>

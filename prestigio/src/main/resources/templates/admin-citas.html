@@ -1,44 +1,128 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
-    <title>Citas</title>
+    <title>Citas Agendadas - Prestigio Admin</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" th:href="@{/css/navbar.css}">
+    <link rel="stylesheet" th:href="@{/css/admin-agenda/admin-citas.css}">
 </head>
 <body>
-<div class="container mt-5">
-    <h2>Listado de Citas</h2>
 
-    <table class="table table-bordered">
-        <thead>
-        <tr>
-            <th>Cliente</th>
-            <th>Servicio</th>
-            <th>Fecha</th>
-            <th>Estado</th>
-            <th>Acciones</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="cita : ${citas}">
-            <td th:text="${cita.usuario.nombre}">Cliente</td>
-            <td th:text="${cita.servicio.nombre}">Servicio</td>
-            <td th:text="${#temporals.format(cita.fecha, 'dd/MM/yyyy HH:mm')}">Fecha</td>
-            <td th:text="${cita.estado}">Estado</td>
-            <td>
-                <form th:if="${cita.estado != 'CANCELADA'}" th:action="@{/admin/citas/estado}" method="post" style="display:inline;">
-                    <input type="hidden" name="citaId" th:value="${cita.id}"/>
-                    <select name="estado" class="form-control d-inline" style="width: auto; display: inline;">
-                        <option th:selected="${cita.estado == 'PENDIENTE'}">PENDIENTE</option>
-                        <option th:selected="${cita.estado == 'FINALIZADO'}">FINALIZADO</option>
-                    </select>
-                    <button type="submit" class="btn btn-sm btn-primary ml-2">Actualizar</button>
-                </form>
-                <span th:if="${cita.estado == 'CANCELADA'}">No modificable</span>
-            </td>
-        </tr>
-        </tbody>
-    </table>
+<header>
+    <nav class="navbar navbar-expand-lg bg-white shadow-sm py-3">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <img th:src="@{/recursos/logo.png}" alt="Prestigio Logo" height="40">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+                <ul class="navbar-nav align-items-lg-center">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" th:href="@{/}">Inicio</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Productos</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Galería</a>
+                    </li>
+                    <li sec:authorize="hasRole('ADMIN')" class="nav-item">
+                        <a class="nav-link" th:href="@{/admin/agenda}">Agendar cita</a>
+                    </li>
+                    <li sec:authorize="hasRole('ADMIN')" class="nav-item">
+                        <a class="nav-link" th:href="@{/admin/citas}">Citas Agendadas</a>
+                    </li>
+
+                    <li class="nav-item ms-lg-4 mt-3 mt-lg-0" sec:authorize="isAnonymous()">
+                        <a class="btn btn-primary custom-btn-login" th:href="@{/login}">Iniciar Sesión</a>
+                    </li>
+
+                    <li class="nav-item dropdown ms-lg-4 mt-3 mt-lg-0" sec:authorize="isAuthenticated()">
+                        <a class="btn btn-outline-secondary dropdown-toggle" href="#" id="userDropdown" role="button"
+                           data-bs-toggle="dropdown" aria-expanded="false">
+                            <span th:text="${nombreUsuario}">Usuario</span>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                            <li>
+                                <a class="dropdown-item" th:href="@{/mi-cuenta}">Mi cuenta</a>
+                            </li>
+                            <li>
+                                <form th:action="@{/logout}" method="post">
+                                    <button type="submit" class="dropdown-item">Cerrar sesión</button>
+                                </form>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</header>
+
+
+<div class="admin-citas-container">
+    <h1 class="page-title">Listado de Citas Agendadas</h1>
+
+    <div class="table-card">
+        <div th:if="${citas != null and citas.size() > 0}" class="table-responsive">
+            <table class="table custom-table">
+                <thead>
+                <tr>
+                    <th>Cliente</th>
+                    <th>Servicio</th>
+                    <th>Fecha</th>
+                    <th>Estado</th>
+                    <th>Acciones</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="cita : ${citas}">
+                    <td data-label="Cliente:" th:text="${cita.usuario?.nombre}">Cliente Apellido</td>
+                    <td data-label="Servicio:" th:text="${cita.servicio?.nombre}">Servicio</td>
+                    <td data-label="Fecha:" th:text="${#temporals.format(cita.fecha, 'dd/MM/yyyy HH:mm')}">Fecha y Hora</td>
+                    <td data-label="Estado:">
+                        <span class="status-badge" th:classappend="'status-' + ${cita.estado}" th:text="${cita.estado}">Estado</span>
+                    </td>
+                    <td data-label="Acciones:">
+                        <form th:if="${cita.estado != 'CANCELADA'}" th:action="@{/admin/citas/estado}" method="post" class="d-flex align-items-center">
+                            <input type="hidden" name="citaId" th:value="${cita.id}"/>
+                            <select name="estado" class="form-control status-select">
+                                <option value="PENDIENTE" th:selected="${cita.estado == 'PENDIENTE'}">PENDIENTE</option>
+                                <option value="FINALIZADO" th:selected="${cita.estado == 'FINALIZADO'}">FINALIZADO</option>
+                            </select>
+                            <button type="submit" class="btn btn-sm btn-update-custom">Actualizar</button>
+                        </form>
+                        <span th:if="${cita.estado == 'CANCELADA'}" class="not-editable-text">No modificable</span>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <p th:if="${citas == null or citas.size() == 0}" class="no-citas-message">No hay citas agendadas actualmente.</p>
+    </div>
+
 </div>
+
+<footer class="footer mt-5 p-3 d-flex justify-content-between align-items-center">
+    <div class="footer-brand">Prestigio</div>
+    <div class="footer-copyright">
+        Copyright © 2024 Website. All rights reserved.
+    </div>
+    <div class="social-icons">
+        <a href="#" class="social-icon-link mr-2"><i class="fab fa-facebook-f"></i></a>
+        <a href="#" class="social-icon-link mr-2"><i class="fab fa-instagram"></i></a>
+        <a href="#" class="social-icon-link mr-2"><i class="fab fa-linkedin-in"></i></a>
+        <a href="#" class="fab fa-youtube"></i></a>
+    </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js" integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
 </body>
 </html>

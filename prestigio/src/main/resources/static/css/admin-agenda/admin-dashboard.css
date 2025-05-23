@@ -1,0 +1,402 @@
+/* Variables de color basadas en las imágenes (mantengo consistencia) */
+:root {
+    --primary-text-color: #313131;
+    --secondary-text-color: #6a6a6a;
+    --background-light-grey: #fbf6f2; /* Fondo general de la página */
+    --card-background: #ffffff; /* Fondo de las tarjetas de formulario y contenido */
+    --border-color-light: #e0e0e0;
+    --input-border-color: #d1d1d1;
+    --button-primary-bg: #806443; /* Color beige/marrón claro del botón principal de la imagen */
+    --button-primary-hover-bg: #997a5c;
+    --button-text-color: #ffffff;
+    --title-color: #ecd2a1; /* Tono marrón para títulos */
+    --warning-bg: #fffbe6; /* Fondo amarillo claro para la caja de advertencia */
+    --warning-border: #ffe58f; /* Borde amarillo para la caja de advertencia */
+    --table-header-bg: #f5f5f5;
+    --table-border-color: #e0e0e0;
+    --calendar-border: #ccc;
+    --calendar-header-bg: #f0f0f0;
+    --calendar-day-hover-bg: #e6e6e6;
+
+    /* Colores específicos del Dashboard/Sidebar */
+    --sidebar-bg: #343a40; /* Fondo oscuro para la barra lateral */
+    --sidebar-text: #f8f9fa; /* Texto claro en la barra lateral */
+    --sidebar-header-bg: #212529; /* Fondo más oscuro para el encabezado de la sidebar */
+    --sidebar-hover-bg: #c9a96a; /* Color de hover para ítems de sidebar */
+    --sidebar-active-text: #ffffff;
+}
+
+body {
+    background-color: var(--background-light-grey);
+    color: var(--primary-text-color);
+    font-family: Arial, sans-serif;
+    margin: 0;
+    display: flex;
+    flex-direction: column; /* Para que el footer se quede abajo */
+    min-height: 100vh; /* Ocupar al menos el alto de la vista */
+}
+
+/* Contenedor principal del dashboard */
+.dashboard-wrapper {
+    display: flex;
+    flex-grow: 1;
+    margin-top: 20px;
+    padding: 0 20px;
+    max-width: 1200px; /* Mantener un max-width para el contenedor general si deseas centrarlo */
+    width: 100%; /* Asegurar que ocupe todo el ancho disponible hasta el max-width */
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Sidebar (Menú Lateral) */
+.sidebar {
+    width: 250px; /* Ancho fijo de la barra lateral */
+    min-width: 250px;
+    background-color: #ecd2a1;
+    color: var(--sidebar-text);
+    padding: 20px 0;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    align-self: flex-start; /* Para que no se estire verticalmente */
+    position: sticky; /* Se queda fijo al hacer scroll */
+    top: 80px; /* Distancia desde arriba (ajusta si tu navbar tiene altura diferente) */
+    height: fit-content; /* Se ajusta al contenido */
+    margin-right: 30px; /* Espacio entre sidebar y contenido principal */
+}
+
+.sidebar-header {
+    padding: 15px 20px;
+    background-color: #ecd2a1;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    margin-bottom: 15px;
+    text-align: center;
+    color: #222;
+}
+
+.sidebar-header h4 {
+    margin: 0;
+    font-size: 1.2em;
+}
+
+.sidebar-menu {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.menu-item {
+    margin-bottom: 5px;
+}
+
+.menu-link {
+    display: block;
+    padding: 12px 20px;
+    color: #444;
+    text-decoration: none;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    border-radius: 5px;
+    margin: 0 10px;
+}
+
+.menu-link:hover {
+    background-color: var(--sidebar-hover-bg);
+    color: #444;
+    text-decoration: none;
+}
+
+.menu-link.active {
+    background-color: #fff4df;
+    color: #444;
+    font-weight: bold;
+}
+
+.menu-icon {
+    margin-right: 10px;
+    font-size: 1.1em;
+}
+
+/* Área de Contenido Principal */
+.main-content-area {
+    flex-grow: 1; /* Ocupa el espacio restante */
+    min-width: 0;
+    background-color: var(--background-light-grey); /* Mantener el mismo fondo que el body */
+    padding: 0px 20px; /* Padding interno */
+    box-sizing: border-box;
+}
+
+.dashboard-title {
+    color: #c9a06c;
+    font-size: 2.5em;
+    font-weight: bold;
+    margin-bottom: 40px;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.05);
+}
+
+.content-section {
+    /* Las clases form-card ya tienen estos estilos */
+}
+
+/* Estilo para cada tarjeta de formulario (agregar servicio, disponibilidad, agendar) */
+.form-card {
+    background-color: var(--card-background);
+    border: 1px solid var(--border-color-light);
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    padding: 30px;
+    margin-bottom: 30px; /* Espacio entre tarjetas */
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.form-card-title {
+    color: var(--primary-text-color);
+    font-size: 1.5em;
+    font-weight: bold;
+    margin-bottom: 25px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid var(--border-color-light);
+    text-align: center;
+}
+
+/* Estilos para los grupos de formulario personalizados */
+.form-group-custom {
+    margin-bottom: 20px; /* Espacio entre campos */
+}
+.form-group-custom label {
+    font-weight: bold;
+    color: var(--secondary-text-color);
+    margin-bottom: 8px;
+    display: block; /* Para que la etiqueta esté en su propia línea */
+}
+
+/* Estilos para inputs y selects personalizados */
+.form-control-custom {
+    border: 1px solid var(--input-border-color);
+    border-radius: 5px;
+    padding: 10px 15px;
+    font-size: 1em;
+    color: var(--primary-text-color);
+    box-shadow: inset 0 1px 2px rgba(0,0,0,0.03);
+    width: 100%; /* Asegura que ocupen todo el ancho disponible */
+    box-sizing: border-box;
+}
+
+.form-control-custom::placeholder {
+    color: var(--secondary-text-color);
+    opacity: 0.7;
+}
+
+.form-control-custom:focus {
+    border-color: #c9a06c;
+    box-shadow: 0 0 0 0.2rem rgba(128, 100, 67, 0.25);
+}
+
+/* Estilo para botones de submit personalizados */
+.custom-submit-btn {
+    background-color: #ecd2a1;
+    color: #444;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 25px;
+    font-size: 1.1em;
+    font-weight: bold;
+    transition: background-color 0.2s ease;
+}
+
+.custom-submit-btn:hover {
+    background-color: #ecd2a1;
+    color: #222;
+}
+
+
+/* Estilos para la tabla de citas disponibles */
+.custom-table {
+    background-color: var(--card-background);
+    border: 1px solid var(--table-border-color);
+    border-radius: 5px;
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    overflow: hidden;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+
+.custom-table th {
+    background-color: var(--table-header-bg);
+    color: var(--secondary-text-color);
+    font-weight: bold;
+    border-bottom: 1px solid var(--table-border-color);
+    text-align: left;
+    padding: 12px 15px;
+}
+
+.custom-table td {
+    vertical-align: middle;
+    text-align: left;
+    padding: 10px 15px;
+    border-top: 1px solid var(--table-border-color);
+    color: var(--primary-text-color);
+}
+
+.custom-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.custom-table tbody tr:hover {
+    background-color: #f9f9f9;
+}
+
+.custom-assign-btn {
+    background-color: #ecd2a1;
+    color: #222;
+    border: none;
+    border-radius: 4px;
+    padding: 6px 15px;
+    font-size: 0.9em;
+    transition: background-color 0.2s ease;
+}
+
+.custom-assign-btn:hover {
+    background-color: #ecd2a1;
+}
+
+/* Estilos para el calendario (placeholder visual) */
+.calendar-placeholder {
+    border: 1px solid var(--calendar-border);
+    border-radius: 8px;
+    padding: 15px;
+    background-color: var(--card-background);
+    flex-shrink: 0;
+    width: 280px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.03);
+}
+
+.calendar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: var(--calendar-header-bg);
+    padding: 10px 15px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    font-weight: bold;
+    color: var(--primary-text-color);
+    font-size: 1.1em;
+}
+
+.calendar-header .arrow {
+    cursor: pointer;
+    color: var(--secondary-text-color);
+}
+
+.calendar-grid {
+    width: 100%;
+    text-align: center;
+    border-collapse: collapse;
+}
+
+.calendar-grid th {
+    background-color: transparent;
+    border: none;
+    padding: 8px 5px;
+    color: var(--secondary-text-color);
+    font-size: 0.9em;
+}
+
+.calendar-grid td {
+    border: none;
+    padding: 8px 5px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    border-radius: 4px;
+}
+
+.calendar-grid td:hover {
+    background-color: var(--calendar-day-hover-bg);
+}
+
+/* Footer Styles (mantengo los colores de la imagen anterior para consistencia) */
+.footer {
+    background-color: #e0e0e0;
+    border-top: 1px solid #d0d0d0;
+    color: var(--secondary-text-color);
+    font-size: 0.9em;
+    padding: 15px 30px;
+    text-align: center;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: auto; /* Empuja el footer al final de la página */
+}
+
+.footer-brand {
+    font-family: 'Georgia', serif;
+    font-size: 1.5em;
+    color: var(--primary-text-color);
+    margin-right: 20px;
+}
+
+.footer-copyright {
+    flex-grow: 1;
+    text-align: center;
+}
+
+.social-icons a {
+    color: var(--secondary-text-color);
+    font-size: 1.2em;
+    margin-left: 10px;
+    transition: color 0.2s ease-in-out;
+}
+
+.social-icons a:hover {
+    color: #c9a06c;
+}
+
+/* Ajustes responsivos */
+@media (max-width: 992px) { /* Para tabletas y móviles */
+    .dashboard-wrapper {
+        flex-direction: column; /* Apila sidebar y contenido */
+        padding: 0 15px;
+    }
+    .sidebar {
+        width: 100%; /* Sidebar ocupa todo el ancho */
+        position: static; /* Ya no es sticky */
+        margin-right: 0;
+        margin-bottom: 20px; /* Espacio debajo de la sidebar */
+    }
+    .sidebar-menu {
+        display: flex; /* Menú en fila para móviles */
+        flex-wrap: wrap; /* Envuelve los items si no caben */
+        justify-content: center;
+    }
+    .menu-item {
+        margin: 5px; /* Espacio entre los items del menú */
+    }
+    .menu-link {
+        padding: 8px 15px;
+        font-size: 0.9em;
+    }
+    .menu-icon {
+        display: block; /* Íconos en su propia línea o con menos margen */
+        margin-right: 0;
+        margin-bottom: 5px;
+        text-align: center;
+    }
+    .main-content-area {
+        padding: 15px;
+    }
+    .dashboard-title {
+        font-size: 2em;
+        margin-bottom: 30px;
+    }
+    .form-card {
+        padding: 20px;
+    }
+    .d-flex.flex-column.flex-md-row {
+        flex-direction: column;
+    }
+    .calendar-placeholder {
+        width: 100%;
+        margin-right: 0;
+    }
+}

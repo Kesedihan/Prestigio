@@ -1,68 +1,161 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
-    <title>Agendar Cita</title>
+    <title>Agendar Cita - Prestigio</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
-</head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" th:href="@{/css/navbar.css}">
+    <link rel="stylesheet" th:href="@{/css/cliente-agenda/cliente-agenda.css}"> </head>
 <body>
-<div class="container mt-5">
 
-    <h2 class="mb-4">Citas pendientes</h2>
-    <table class="table table-sm table-bordered" th:if="${citasPendientes != null and citasPendientes.size() > 0}">
-        <thead>
-        <tr>
-            <th>Servicio</th>
-            <th>Fecha</th>
-            <th>Estado</th>
-            <th>Acciones</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="c : ${citasPendientes}">
-            <td th:text="${c.servicio?.nombre}">Servicio</td>
-            <td th:text="${#temporals.format(c.fecha, 'dd/MM/yyyy HH:mm')}">Fecha</td>
-            <td th:text="${c.estado}">Estado</td>
-            <td>
-                <form th:action="@{/cliente/cancelar-cita}" method="post">
-                    <input type="hidden" name="citaId" th:value="${c.id}"/>
-                    <button type="submit" class="btn btn-sm btn-danger"
-                            th:if="${c.estado == 'PENDIENTE'}">Cancelar</button>
-                </form>
-            </td>
-        </tr>
-        </tbody>
-    </table>
-    <p th:if="${citasPendientes == null or citasPendientes.size() == 0}">No tienes citas pendientes actualmente.</p>
+<header>
+    <nav class="navbar navbar-expand-lg bg-white shadow-sm py-3">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <img th:src="@{/recursos/logo.png}" alt="Prestigio Logo" height="40">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+                <ul class="navbar-nav align-items-lg-center">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" th:href="@{/}">Inicio</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Productos</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Galería</a>
+                    </li>
+                    <li sec:authorize="hasRole('ADMIN')" class="nav-item">
+                        <a class="nav-link" th:href="@{/admin/agenda}">Admin Agenda</a>
+                    </li>
+                    <li sec:authorize="hasRole('CLIENTE')" class="nav-item">
+                        <a class="nav-link" th:href="@{/cliente/agendar}">Agendar cita</a>
+                    </li>
 
-    <hr/>
+                    <li class="nav-item ms-lg-4 mt-3 mt-lg-0" sec:authorize="isAnonymous()">
+                        <a class="btn btn-primary custom-btn-login" th:href="@{/login}">Iniciar Sesión</a>
+                    </li>
 
-    <h2 class="mb-4">Agendar nueva cita</h2>
-
-    <form method="get" th:action="@{/cliente/agendar}" class="form-inline mb-3">
-        <label class="mr-2">Filtrar por servicio:</label>
-        <select name="servicioId" class="form-control mr-2" onchange="this.form.submit()">
-            <option th:value="${null}" th:selected="${servicioSeleccionado == null}">Todos</option>
-            <option th:each="s : ${servicios}"
-                    th:value="${s.id}"
-                    th:text="${s.nombre}"
-                    th:selected="${s.id == servicioSeleccionado}"></option>
-        </select>
-    </form>
-
-    <form th:action="@{/cliente/agendar}" method="post">
-        <div class="form-group">
-            <label>Selecciona una disponibilidad:</label>
-            <select class="form-control" name="disponibilidadId" required>
-                <option th:each="d : ${disponibilidades}"
-                        th:value="${d.id}"
-                        th:text="${#temporals.format(d.fechaHora, 'dd/MM/yyyy HH:mm')} + ' | ' + ${d.servicio?.nombre ?: 'Servicio desconocido'} + ' | Duración: ' + ${d.servicio?.duracion ?: 'N/A'} + ' min | $' + ${d.servicio?.precio ?: '0.00'}">
-                </option>
-            </select>
+                    <li class="nav-item dropdown ms-lg-4 mt-3 mt-lg-0" sec:authorize="isAuthenticated()">
+                        <a class="btn btn-outline-secondary dropdown-toggle" href="#" id="userDropdown" role="button"
+                           data-bs-toggle="dropdown" aria-expanded="false">
+                            <span th:text="${nombreUsuario}">Usuario</span>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                            <li>
+                                <a class="dropdown-item" th:href="@{/mi-cuenta}">Mi cuenta</a>
+                            </li>
+                            <li>
+                                <form th:action="@{/logout}" method="post">
+                                    <button type="submit" class="dropdown-item">Cerrar sesión</button>
+                                </form>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
         </div>
-        <button type="submit" class="btn btn-primary">Agendar cita</button>
-    </form>
+    </nav>
+</header>
 
-</div>
+<div class="client-page-container">
+
+    <h1 class="page-title">Agendar y Gestionar Citas</h1>
+
+    <div class="content-card mb-5">
+        <h2 class="content-card-title">Citas Pendientes</h2>
+        <div th:if="${citasPendientes != null and citasPendientes.size() > 0}" class="table-responsive">
+            <table class="table custom-table">
+                <thead>
+                <tr>
+                    <th>Servicio</th>
+                    <th>Fecha</th>
+                    <th>Estado</th>
+                    <th>Acciones</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="c : ${citasPendientes}">
+                    <td th:text="${c.servicio?.nombre}">Servicio</td>
+                    <td th:text="${#temporals.format(c.fecha, 'dd/MM/yyyy HH:mm')}">Fecha</td>
+                    <td th:text="${c.estado}">Estado</td>
+                    <td>
+                        <form th:action="@{/cliente/cancelar-cita}" method="post">
+                            <input type="hidden" name="citaId" th:value="${c.id}"/>
+                            <button type="submit" class="btn btn-sm btn-cancel-custom"
+                                    th:if="${c.estado == 'PENDIENTE'}">Cancelar</button>
+                        </form>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <p th:if="${citasPendientes == null or citasPendientes.size() == 0}" class="no-appointments-message">No tienes citas pendientes actualmente.</p>
+    </div>
+
+
+    <div class="warning-box mb-5">
+        <p class="warning-text">Señor(a) usuario recuerde que usted puede ser bloqueado para asignar sus Citas por las siguientes razones:</p>
+        <ul class="warning-list">
+            <li>Cancelar tres veces una cita del mismo servicio en una semana.</li>
+            <li>Cambiar la cita con menos de 4 horas de anticipación.</li>
+            <li>No asistir a una cita.</li>
+        </ul>
+        <p class="warning-text">Para su desbloqueo debe acercarse a nuestro establecimiento.</p>
+    </div>
+
+    <div class="content-card">
+        <h2 class="content-card-title">Agendar Nueva Cita</h2>
+
+        <form method="get" th:action="@{/cliente/agendar}" class="filter-form-inline mb-4">
+            <label class="mr-2">Filtrar por servicio:</label>
+            <select name="servicioId" class="form-control form-control-custom mr-2" onchange="this.form.submit()">
+                <option th:value="${null}" th:selected="${servicioSeleccionado == null}">Todos</option>
+                <option th:each="s : ${servicios}"
+                        th:value="${s.id}"
+                        th:text="${s.nombre}"
+                        th:selected="${s.id == servicioSeleccionado}"></option>
+            </select>
+        </form>
+
+        <form th:action="@{/cliente/agendar}" method="post">
+            <div class="form-group form-group-custom">
+                <label for="disponibilidadSelect">Selecciona una disponibilidad:</label>
+                <select class="form-control form-control-custom" id="disponibilidadSelect" name="disponibilidadId" required>
+                    <option th:each="d : ${disponibilidades}"
+                            th:value="${d.id}"
+                            th:text="${#temporals.format(d.fechaHora, 'dd/MM/yyyy HH:mm')} + ' | ' + ${d.servicio?.nombre ?: 'Servicio desconocido'} + ' | Duración: ' + ${d.servicio?.duracion ?: 'N/A'} + ' min | $' + ${d.servicio?.precio ?: '0.00'}">
+                    </option>
+                    <option th:if="${#lists.isEmpty(disponibilidades)}" value="">No hay disponibilidades para el servicio seleccionado.</option>
+                </select>
+            </div>
+            <div class="d-flex justify-content-end">
+                <button type="submit" class="btn btn-primary-custom">Agendar Cita</button>
+            </div>
+        </form>
+    </div>
+
+</div> <footer class="footer mt-5 p-3 d-flex justify-content-between align-items-center">
+    <div class="footer-brand">Prestigio</div>
+    <div class="footer-copyright">
+        Copyright © 2024 Website. All rights reserved.
+    </div>
+    <div class="social-icons">
+        <a href="#" class="social-icon-link mr-2"><i class="fab fa-facebook-f"></i></a>
+        <a href="#" class="social-icon-link mr-2"><i class="fab fa-instagram"></i></a>
+        <a href="#" class="social-icon-link mr-2"><i class="fab fa-linkedin-in"></i></a>
+        <a href="#" class="social-icon-link"><i class="fab fa-youtube"></i></a>
+    </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js" integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+
 </body>
 </html>

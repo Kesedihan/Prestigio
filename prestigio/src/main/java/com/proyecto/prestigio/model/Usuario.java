@@ -2,16 +2,15 @@ package com.proyecto.prestigio.model;
 
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDateTime;
 import java.util.Set;
 
 @Entity
 @Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "usuario")
@@ -22,6 +21,9 @@ public class Usuario {
     private Long id;
 
     private String nombre;
+
+    @Column(nullable = false)
+    private String apellido;
 
     @Column(nullable = false, unique = true)
     private String email;
@@ -40,5 +42,4 @@ public class Usuario {
     )
     @EqualsAndHashCode.Exclude
     private Set<Rol> roles;
-    // Getters y setters
 }
