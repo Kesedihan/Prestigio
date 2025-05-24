@@ -146,6 +146,45 @@
         </div>
     </div>
 </div>
+<!-- Historial de Compras en mi-cuenta.html -->
+<div class="container purchase-history-section mt-5">
+    <h2 class="section-title-smaller text-center mb-4">Historial de Compras</h2>
+    <div class="table-responsive purchase-history-table">
+        <table class="table table-borderless mb-0">
+            <thead>
+            <tr>
+                <th scope="col"># Orden</th>
+                <th scope="col">Fecha</th>
+                <th scope="col">Productos</th>
+                <th scope="col">Total</th>
+                <th scope="col">Estado</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="venta : ${ventas}">
+                <td data-label="# Orden" th:text="${venta.id}">1001</td>
+                <td data-label="Fecha" th:text="${#temporals.format(venta.fecha, 'dd-MM-yyyy HH:mm')}">2025-05-23</td>
+                <td data-label="Productos">
+                    <ul class="purchase-product-list">
+                        <li th:each="item : ${venta.items}" th:text="${item.producto.nombre + ' (x' + item.cantidad + ')'}">
+                            Producto A (x2)
+                        </li>
+                    </ul>
+                </td>
+                <td data-label="Total" th:text="${#numbers.formatDecimal(venta.total, 0, 'COMMA', 0, 'POINT')}">$150.00</td>
+                <td data-label="Estado" class="purchase-status-cell">
+                    <span th:classappend="${venta.estado == 'ENTREGADO' ? 'badge-success' : (venta.estado == 'EN_PROCESO' ? 'badge-warning' : 'badge-danger')}"
+                          class="purchase-status-badge"
+                          th:text="${venta.estado}">En proceso</span>
+                </td>
+            </tr>
+            <tr th:if="${ventas == null or #lists.isEmpty(ventas)}">
+                <td colspan="5" class="text-center py-4">No tienes compras registradas aún.</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
 
 <footer class="footer mt-5 p-3 d-flex justify-content-between align-items-center">
     <div class="footer-brand">Prestigio</div>

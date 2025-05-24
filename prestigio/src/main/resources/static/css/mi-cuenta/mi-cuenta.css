@@ -11,6 +11,10 @@
     --status-realizada: #28a745; /* Verde para "Realizada" */
     --status-cancelada: #dc3545; /* Rojo para "Cancelada" */
     --status-pendiente: #ffc107; /* Amarillo para "Pendiente" */
+    /* Nuevas variables para el historial de compras, si se necesitan colores específicos */
+    --purchase-header-bg: #f8f8f8; /* Un gris muy claro para el encabezado de compras */
+    --purchase-item-bullet: #c9a06c; /* Color para los puntos de la lista de productos */
+    --status-completada: #28a745; /* Asume el mismo color que "Realizada" */
 }
 
 /* General Body Styles */
@@ -206,6 +210,109 @@ body {
     color: var(--primary-text-color); /* Texto oscuro para contraste */
 }
 
+/* --- Historial de Compras --- */
+.purchase-history-section {
+    /* El contenedor ya tiene clases de Bootstrap (container, mt-5, p-4, bg-white, rounded, shadow-sm) */
+    /* Estas clases ya le dan el fondo, padding, sombra y bordes redondeados */
+    margin-top: 50px; /* Para asegurar un espacio adecuado si no se usa mt-5 en HTML */
+}
+
+.section-title-smaller {
+    font-size: 1.8em; /* Tamaño similar a tu h3 de perfil */
+    color: var(--primary-text-color);
+    font-weight: bold;
+    margin-bottom: 1rem;
+    text-align: center; /* Centrar el título */
+}
+
+.purchase-history-table {
+    margin-top: 1.5rem;
+    background-color: var(--card-background); /* Fondo blanco como las otras tarjetas */
+    border: 1px solid var(--border-color-light); /* Borde suave */
+    border-radius: 5px; /* Bordes redondeados */
+    overflow: hidden; /* Importante para que el border-radius funcione con los bordes de la tabla */
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05); /* Sombra sutil */
+}
+
+.purchase-history-table thead th {
+    background-color: var(--purchase-header-bg); /* Un gris muy claro para el encabezado de compras */
+    color: var(--secondary-text-color);
+    font-weight: bold;
+    padding: 12px;
+    text-align: center; /* Centrar el texto del encabezado */
+    border-bottom: 1px solid var(--border-color-light); /* Borde inferior */
+}
+
+.purchase-history-table tbody td {
+    padding: 10px;
+    vertical-align: middle;
+    text-align: center; /* Centrar el contenido de las celdas */
+    border-top: 1px solid #f0f0f0; /* Borde más suave entre filas */
+}
+
+.purchase-history-table tbody tr:hover {
+    background-color: #f8f8f8; /* Un ligero hover para las filas */
+}
+
+.purchase-status-cell {
+    /* Contenedor para el badge, ya centrado por el text-align de td */
+}
+
+.purchase-status-badge {
+    display: inline-block; /* Para que el badge se comporte bien */
+    padding: 5px 10px;
+    border-radius: 15px; /* Bordes redondeados como los status-pill */
+    font-size: 0.85em;
+    font-weight: bold;
+    color: white;
+    text-transform: uppercase;
+    white-space: nowrap; /* Evita que el texto del badge se rompa */
+}
+
+/* Colores específicos para los estados de compra, usando las variables de colores existentes */
+.purchase-status-badge.badge-warning {
+    background-color: var(--status-pendiente);
+    color: var(--primary-text-color); /* Texto oscuro para contraste */
+}
+
+.purchase-status-badge.badge-success {
+    background-color: var(--status-completada); /* Usamos el mismo que realizada */
+}
+
+.purchase-status-badge.badge-danger {
+    background-color: var(--status-cancelada);
+}
+
+.purchase-product-list {
+    list-style: none; /* Quita las viñetas predeterminadas de la lista */
+    padding-left: 0;
+    margin-bottom: 0; /* Elimina margen inferior extra */
+    text-align: left; /* Alinea los items de la lista a la izquierda dentro de la celda */
+}
+
+.purchase-product-list li {
+    margin-bottom: 3px; /* Espacio entre items de la lista */
+    padding-left: 15px; /* Espacio para el punto personalizado */
+    position: relative;
+    color: var(--secondary-text-color); /* Color de texto para los productos */
+}
+
+.purchase-product-list li:last-child {
+    margin-bottom: 0; /* Elimina el margen inferior del último item */
+}
+
+.purchase-product-list li::before {
+    content: '\2022'; /* Código Unicode para un punto (•) */
+    color: var(--purchase-item-bullet); /* Color del punto */
+    font-weight: bold;
+    display: inline-block;
+    width: 1em; /* Ancho del punto */
+    margin-left: -1em; /* Mueve el punto a la izquierda */
+    position: absolute;
+    left: 0;
+    top: 0; /* Alinea el punto con el inicio del texto */
+}
+
 /* Footer Styles */
 .footer {
     background-color: #e0e0e0; /* Gris más oscuro para el footer */
@@ -265,5 +372,179 @@ body {
     }
     .footer-brand, .footer-copyright, .social-icons {
         margin-bottom: 10px;
+    }
+
+    /* Tablas responsivas para móviles */
+    .table-responsive table {
+        width: 100%; /* Asegura que la tabla ocupe todo el ancho */
+        display: block; /* Permite que el tbody se apile */
+    }
+
+    .table-responsive thead {
+        display: none; /* Oculta el encabezado de la tabla en pantallas pequeñas */
+    }
+
+    .table-responsive tbody,
+    .table-responsive tr,
+    .table-responsive td {
+        display: block; /* Hace que las filas y celdas se apilen verticalmente */
+        width: 100%; /* Las celdas ocupan todo el ancho */
+        box-sizing: border-box; /* Incluye padding y bordes en el ancho */
+    }
+
+    .table-responsive tbody tr {
+        margin-bottom: 1rem;
+        border: 1px solid var(--border-color-light);
+        border-radius: 5px;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        padding: 0.75rem; /* Padding dentro de cada "tarjeta" de fila */
+    }
+
+    .table-responsive td {
+        text-align: right; /* Alinea el valor a la derecha */
+        padding-left: 45%; /* Deja espacio para la etiqueta */
+        position: relative;
+        border: none; /* Elimina los bordes internos de las celdas */
+        padding-top: 0.5rem;
+        padding-bottom: 0.5rem;
+    }
+
+    .table-responsive td::before {
+        content: attr(data-label); /* Usa el atributo data-label del HTML */
+        position: absolute;
+        left: 15px;
+        width: 40%; /* Ancho de la etiqueta */
+        text-align: left;
+        font-weight: bold;
+        color: var(--secondary-text-color);
+    }
+}
+/* --- Historial de Compras --- */
+.purchase-history-section {
+    margin-top: 50px; /* Para asegurar un espacio adecuado */
+}
+
+.section-title-smaller {
+    font-size: 1.8em; /* Tamaño similar a tu h3 de perfil */
+    color: var(--primary-text-color);
+    font-weight: bold;
+    margin-bottom: 1.5rem; /* Más espacio debajo del título */
+    text-align: center; /* Centrar el título */
+}
+
+.purchase-history-table {
+    margin-top: 1.5rem;
+    background-color: var(--card-background); /* Fondo blanco como las otras tarjetas */
+    border: 1px solid var(--border-color-light); /* Borde suave */
+    border-radius: 8px; /* Bordes redondeados sutiles */
+    overflow: hidden; /* Importante para que el border-radius funcione con los bordes de la tabla */
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08); /* Sombra más pronunciada pero suave */
+}
+
+.purchase-history-table thead th {
+    background-color: var(--purchase-header-bg); /* Un gris muy claro para el encabezado de compras */
+    color: var(--secondary-text-color);
+    font-weight: 600; /* Ligeramente menos negrita */
+    padding: 15px 12px; /* Más padding para los encabezados */
+    text-align: center; /* Centrar el texto del encabezado */
+    border-bottom: 1px solid var(--border-color-light); /* Borde inferior */
+    text-transform: uppercase; /* Mayúsculas para los encabezados */
+    font-size: 0.9em;
+}
+
+.purchase-history-table tbody td {
+    padding: 12px; /* Más padding para las celdas */
+    vertical-align: middle;
+    text-align: center; /* Centrar el contenido de las celdas */
+    border-top: 1px solid #f0f0f0; /* Borde más suave entre celdas */
+    color: var(--primary-text-color);
+}
+
+.purchase-history-table tbody tr:hover {
+    background-color: #fcfcfc; /* Un ligero hover más claro para las filas */
+}
+
+.purchase-status-cell {
+    /* Contenedor para el badge, ya centrado por el text-align de td */
+}
+
+.purchase-status-badge {
+    display: inline-block; /* Para que el badge se comporte bien */
+    padding: 6px 14px; /* Más padding para el badge */
+    border-radius: 20px; /* Más redondeado para el badge */
+    font-size: 0.8em; /* Tamaño de fuente ligeramente más pequeño */
+    font-weight: bold;
+    color: white;
+    text-transform: uppercase;
+    white-space: nowrap; /* Evita que el texto del badge se rompa */
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* Sombra sutil para el badge */
+}
+
+/* Colores específicos para los estados de compra, usando las variables de colores existentes */
+.purchase-status-badge.badge-warning {
+    background-color: var(--status-pendiente);
+    color: var(--primary-text-color); /* Texto oscuro para contraste */
+}
+
+.purchase-status-badge.badge-success {
+    background-color: var(--status-completada); /* Usamos el mismo que realizada */
+}
+
+.purchase-status-badge.badge-danger {
+    background-color: var(--status-cancelada);
+}
+
+.purchase-product-list {
+    list-style: none; /* Quita las viñetas predeterminadas de la lista */
+    padding-left: 0;
+    margin-bottom: 0; /* Elimina margen inferior extra */
+    text-align: left; /* Alinea los items de la lista a la izquierda dentro de la celda */
+}
+
+.purchase-product-list li {
+    margin-bottom: 5px; /* Más espacio entre items de la lista */
+    padding-left: 20px; /* Espacio para el punto personalizado */
+    position: relative;
+    color: var(--secondary-text-color); /* Color de texto para los productos */
+    font-size: 0.95em;
+}
+
+.purchase-product-list li:last-child {
+    margin-bottom: 0; /* Elimina el margen inferior del último item */
+}
+
+.purchase-product-list li::before {
+    content: '\2022'; /* Código Unicode para un punto (•) */
+    color: var(--purchase-item-bullet); /* Color del punto */
+    font-weight: bold;
+    display: inline-block;
+    width: 1em; /* Ancho del punto */
+    margin-left: -1em; /* Mueve el punto a la izquierda */
+    position: absolute;
+    left: 0;
+    top: 0; /* Alinea el punto con el inicio del texto */
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    /* ... (tu código responsivo existente) ... */
+
+    /* Tablas responsivas para móviles */
+    .table-responsive tbody tr {
+        margin-bottom: 1rem;
+        border: 1px solid var(--border-color-light);
+        border-radius: 8px; /* Bordes redondeados más sutiles */
+        box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        padding: 1rem; /* Más padding dentro de cada "tarjeta" de fila */
+    }
+
+    .table-responsive td::before {
+        content: attr(data-label);
+        position: absolute;
+        left: 1rem; /* Ajusta la posición de la etiqueta */
+        width: 40%;
+        text-align: left;
+        font-weight: bold;
+        color: var(--secondary-text-color);
     }
 }

@@ -5,6 +5,7 @@
   <title>Nuestros Productos - Prestigio</title>
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <link rel="stylesheet" th:href="@{/css/navbar.css}">
   <link rel="stylesheet" th:href="@{/css/admin-agenda/admin-dashboard.css}">
   <link rel="stylesheet" th:href="@{/css/productos/productos.css}">
@@ -31,6 +32,10 @@
           <li sec:authorize="hasRole('ADMIN')" class="nav-item">
             <a class="nav-link" th:href="@{/admin/productos}">Productos</a>
           </li>
+          <!-- Ejemplo usando Font Awesome -->
+          <a th:href="@{/carrito}" title="Ver carrito" style="margin-left: 20px;">
+            <i class="fa fa-shopping-cart"></i> Carrito
+          </a>
           <li class="nav-item">
             <a class="nav-link" href="#">Galería</a>
           </li>
@@ -97,8 +102,9 @@
           <p class="card-price">
             $<span th:text="${#numbers.formatDecimal(p.precio, 0, 'COMMA', 0, 'POINT')}"></span> COP
           </p>
-          <form th:action="@{/productos/carrito/agregar}" method="post" style="display: inline;">
+          <form th:action="@{/carrito/agregar}" method="post" style="display: inline;">
             <input type="hidden" name="productoId" th:value="${p.id}">
+            <input type="number" name="cantidad" value="1" min="1" style="width: 60px;">
             <button class="btn btn-primary btn-sm" type="submit">Agregar al carrito</button>
           </form>
 

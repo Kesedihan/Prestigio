@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Ventas - Administración</title>
+    <link rel="stylesheet" th:href="@{/css/admin-agenda/admin-dashboard.css}">
+</head>
+<body>
+<header>
+    <!-- Navbar aquí -->
+</header>
+<div class="container mt-5">
+    <h2>Ventas Realizadas</h2>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Cliente</th>
+            <th>Fecha</th>
+            <th>Dirección</th>
+            <th>Pago</th>
+            <th>Estado</th>
+            <th>Productos</th>
+            <th>Acción</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="venta : ${ventas}">
+            <td th:text="${venta.usuario != null ? venta.usuario.nombre : 'Sin usuario'}">Cliente</td>
+            <td th:text="${venta.fecha != null ? #temporals.format(venta.fecha, 'dd/MM/yyyy HH:mm') : ''}">Fecha</td>
+            <td th:text="${venta.direccionEnvio}">Dirección</td>
+            <td th:text="${venta.tipoPago}">Pago</td>
+            <td th:text="${venta.estado}">Estado</td>
+            <td>
+                <ul>
+                    <li th:each="item : ${venta.items}"
+                        th:text="${item.producto != null ? item.producto.nombre : 'Sin producto'} + ' x' + ${item.cantidad}"></li>
+                </ul>
+            </td>
+            <td>
+                <form th:action="@{/admin/ventas/estado}" method="post">
+                    <input type="hidden" name="ventaId" th:value="${venta.id}">
+                    <select name="estado" class="form-control">
+                        <option value="EN_PROCESO" th:selected="${venta.estado == 'EN_PROCESO'}">En proceso</option>
+                        <option value="ENTREGADO" th:selected="${venta.estado == 'ENTREGADO'}">Entregado</option>
+                        <option value="CANCELADO" th:selected="${venta.estado == 'CANCELADO'}">Cancelado</option>
+                    </select>
+                    <button type="submit" class="btn btn-primary btn-sm mt-2">Actualizar</button>
+                </form>
+            </td>
+        </tr>
+        <tr th:if="${ventas == null or #lists.isEmpty(ventas)}">
+            <td colspan="7" class="text-center">No hay ventas registradas.</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

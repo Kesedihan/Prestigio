@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Historial de Compras</title>
+    <link rel="stylesheet" th:href="@{/css/mi-cuenta/mi-cuenta.css}">
+</head>
+<body>
+<header>
+    <!-- Navbar aquí -->
+</header>
+<div class="container mt-5">
+    <h2>Historial de Compras</h2>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Fecha</th>
+            <th>Dirección</th>
+            <th>Pago</th>
+            <th>Estado</th>
+            <th>Productos</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="venta : ${ventas}">
+            <td th:text="${#temporals.format(venta.fecha, 'dd/MM/yyyy HH:mm')}">Fecha</td>
+            <td th:text="${venta.direccionEnvio}">Dirección</td>
+            <td th:text="${venta.tipoPago}">Pago</td>
+            <td th:text="${venta.estado}">Estado</td>
+            <td>
+                <ul>
+                    <li th:each="item : ${venta.items}"
+                        th:text="${item.producto.nombre} + ' x' + ${item.cantidad}"></li>
+                </ul>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

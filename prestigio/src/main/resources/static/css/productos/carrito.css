@@ -1,0 +1,295 @@
+/* Colores base (ajustados a la imagen) */
+:root {
+    --primary-text-color: #313131; /* Un gris oscuro para texto general */
+    --secondary-text-color: #6a6a6a; /* Gris más claro para descripciones/labels */
+    --background-light-grey: #f5f5f5; /* Fondo general y elementos claros */
+    --border-color-light: #e0e0e0; /* Bordes suaves */
+    --card-background: #ffffff; /* Fondo de las tarjetas */
+    --button-background-light: #f1f1f1; /* Botones claros */
+    --button-border-light: #cccccc; /* Borde de botones claros */
+    --accent-blue: #007bff; /* Azul para hover de iconos sociales, etc. */
+    --status-realizada: #28a745; /* Verde para "Realizada" */
+    --status-cancelada: #dc3545; /* Rojo para "Cancelada" */
+    --status-pendiente: #ffc107; /* Amarillo para "Pendiente" */
+    --purchase-header-bg: #f8f8f8;
+    --purchase-item-bullet: #c9a06c;
+    --status-completada: #28a745;
+
+    /* Colores específicos para el carrito de compras (ajustados a la imagen) */
+    --cart-card-bg: #fffbf5; /* Fondo de las tarjetas de producto en el carrito */
+    --cart-border-color: #e6d8c4; /* Borde de las tarjetas de producto */
+    --summary-card-bg: #fffbf5; /* Fondo del resumen de compra */
+    --summary-border-color: #e6d8c4; /* Borde del resumen de compra */
+    --button-primary-cart: #c9a06c; /* Botón "Continuar Compra" */
+    --button-primary-cart-hover: #b38b5c; /* Hover del botón "Continuar Compra" */
+    --checkbox-border: #6a6a6a; /* Color del borde del checkbox */
+    --text-price: #313131; /* Color para los precios */
+    --delete-text-color: #dc3545; /* Color del texto "Eliminar" */
+}
+
+/* General Body Styles (si no los tienes ya en tu CSS principal) */
+body {
+    font-family: Arial, sans-serif;
+    background-color: var(--background-light-grey); /* Fondo general claro */
+    color: var(--primary-text-color);
+}
+
+.main-container {
+    padding-top: 30px; /* Ajusta el padding superior */
+    padding-bottom: 50px;
+}
+
+/* Contenedor principal del carrito */
+.cart-page-container {
+    display: flex;
+    justify-content: center;
+    gap: 30px; /* Espacio entre la lista de productos y el resumen */
+    max-width: 1000px; /* Ancho máximo para el carrito */
+    margin: 50px auto; /* Centrar el contenedor */
+    align-items: flex-start; /* Alinea los ítems al inicio del contenedor */
+}
+
+/* Sección de la lista de productos */
+.cart-product-list-section {
+    flex: 2; /* Ocupa más espacio */
+    display: flex;
+    flex-direction: column;
+    gap: 20px; /* Espacio entre las tarjetas de producto */
+}
+
+/* Sección "Todos los productos" */
+.cart-select-all-card {
+    background-color: var(--cart-card-bg);
+    border: 1px solid var(--cart-border-color);
+    border-radius: 8px;
+    padding: 15px 20px;
+    display: flex;
+    align-items: center;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+
+.cart-select-all-card input[type="checkbox"] {
+    margin-right: 10px;
+    width: 20px; /* Tamaño del checkbox */
+    height: 20px;
+    border: 1px solid var(--checkbox-border); /* Borde del checkbox */
+    border-radius: 3px;
+    accent-color: var(--button-primary-cart); /* Color del tick cuando está marcado */
+    cursor: pointer;
+}
+
+.cart-select-all-card label {
+    margin-bottom: 0;
+    font-weight: bold;
+    color: var(--primary-text-color);
+}
+
+/* Tarjeta de cada producto en el carrito */
+.cart-product-card {
+    background-color: var(--cart-card-bg);
+    border: 1px solid var(--cart-border-color);
+    border-radius: 8px;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+
+.cart-product-card input[type="checkbox"] {
+    width: 20px; /* Tamaño del checkbox */
+    height: 20px;
+    border: 1px solid var(--checkbox-border); /* Borde del checkbox */
+    border-radius: 3px;
+    accent-color: var(--button-primary-cart); /* Color del tick cuando está marcado */
+    cursor: pointer;
+}
+
+.cart-product-image-placeholder {
+    width: 90px; /* Tamaño del placeholder de imagen */
+    height: 90px;
+    background-color: #f0f0f0; /* Fondo del placeholder */
+    border: 1px solid #ddd;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 0.8em;
+    color: #999;
+    flex-shrink: 0; /* Evita que la imagen se encoja */
+}
+
+.cart-product-details {
+    flex-grow: 1; /* Permite que los detalles ocupen el espacio restante */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.cart-product-name {
+    font-weight: bold;
+    color: var(--primary-text-color);
+    margin-bottom: 5px;
+}
+
+.cart-product-price {
+    font-weight: bold;
+    color: var(--text-price);
+    margin-bottom: 10px;
+    font-size: 1.1em;
+}
+
+.cart-quantity-controls {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    margin-bottom: 10px;
+}
+
+.cart-quantity-controls button {
+    background-color: var(--button-background-light);
+    border: 1px solid var(--button-border-light);
+    color: var(--secondary-text-color);
+    padding: 5px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+    min-width: 30px; /* Ancho mínimo para los botones */
+    text-align: center;
+}
+
+.cart-quantity-controls button:hover {
+    background-color: #e6e6e6;
+    border-color: #b0b0b0;
+    color: var(--primary-text-color);
+}
+
+.cart-quantity-controls input[type="number"] {
+    width: 40px; /* Ancho para el input de cantidad */
+    text-align: center;
+    border: 1px solid var(--button-border-light);
+    border-radius: 4px;
+    padding: 5px 0;
+    -moz-appearance: textfield; /* Eliminar flechas en Firefox */
+}
+
+/* Eliminar flechas de input type="number" en Chrome, Safari, Edge, Opera */
+.cart-quantity-controls input::-webkit-outer-spin-button,
+.cart-quantity-controls input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+
+.cart-delete-btn {
+    background: none;
+    border: none;
+    color: var(--delete-text-color);
+    font-size: 0.9em;
+    cursor: pointer;
+    padding: 0;
+    text-decoration: underline;
+}
+
+.cart-delete-btn:hover {
+    color: #a02c39; /* Un rojo más oscuro al pasar el mouse */
+}
+
+
+/* Sección del resumen de compra */
+.cart-summary-section {
+    flex: 1; /* Ocupa menos espacio */
+    background-color: var(--summary-card-bg);
+    border: 1px solid var(--summary-border-color);
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+
+.cart-summary-title {
+    font-weight: bold;
+    color: var(--primary-text-color);
+    margin-bottom: 15px;
+    font-size: 1.1em;
+}
+
+.cart-summary-item {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 8px;
+    color: var(--secondary-text-color);
+    font-size: 0.95em;
+}
+
+.cart-summary-total {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 15px;
+    padding-top: 15px;
+    border-top: 1px solid var(--border-color-light);
+    font-weight: bold;
+    color: var(--primary-text-color);
+    font-size: 1.2em;
+}
+
+.cart-continue-btn {
+    background-color: var(--button-primary-cart);
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 5px;
+    width: 100%; /* Ocupa todo el ancho disponible */
+    margin-top: 20px;
+    font-size: 1.1em;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.cart-continue-btn:hover {
+    background-color: var(--button-primary-cart-hover);
+}
+
+/* Responsivo para pantallas pequeñas */
+@media (max-width: 768px) {
+    .cart-page-container {
+        flex-direction: column;
+        padding: 0 15px; /* Padding horizontal en móviles */
+        margin-top: 30px;
+    }
+
+    .cart-product-list-section,
+    .cart-summary-section {
+        flex: none; /* Desactiva el flex-grow */
+        width: 100%; /* Ocupa todo el ancho */
+    }
+
+    .cart-product-card {
+        flex-direction: column; /* Apila los elementos verticalmente */
+        align-items: flex-start; /* Alinea al inicio */
+        padding: 15px;
+        gap: 10px;
+    }
+
+    .cart-product-image-placeholder {
+        width: 80px;
+        height: 80px;
+        margin-right: auto; /* Centra la imagen si es necesario, o alinea a la izquierda */
+        margin-bottom: 10px;
+    }
+
+    .cart-product-details {
+        width: 100%; /* Detalles ocupan todo el ancho */
+        align-items: flex-start;
+    }
+
+    .cart-quantity-controls {
+        justify-content: center; /* Centra los controles de cantidad */
+        width: 100%;
+    }
+
+    .cart-delete-btn {
+        margin-top: 10px;
+        width: 100%;
+        text-align: center;
+    }
+}
