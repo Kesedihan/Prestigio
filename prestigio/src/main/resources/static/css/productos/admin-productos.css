@@ -1,0 +1,244 @@
+body {
+    background-color: #f8f9fa;
+    font-family: 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.app-container {
+    max-width: 1200px;
+    margin: 30px auto;
+    background-color: #ffffff;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.app-title {
+    color: #343a40;
+    margin-bottom: 30px;
+    text-align: center;
+    font-weight: 600;
+}
+
+/* Estilos para los formularios */
+.app-form {
+    margin-bottom: 30px; /* Reducimos el margen inferior */
+    padding: 25px;
+    border: 1px solid #e2e6ea;
+    border-radius: 8px;
+    background-color: #fefefe;
+}
+
+.app-form-title, .app-section-title {
+    color: #007bff; /* Color azul para los subtítulos */
+    font-size: 1.5rem; /* Tamaño de fuente más grande */
+    margin-bottom: 20px;
+    font-weight: 600;
+    text-align: center;
+}
+
+
+.app-form-group {
+    margin-bottom: 15px;
+}
+
+.app-label {
+    display: block;
+    font-weight: 500;
+    color: #495057;
+    margin-bottom: 5px;
+}
+
+.app-input {
+    display: block;
+    width: 100%;
+    padding: 10px 12px;
+    font-size: 1rem;
+    line-height: 1.5;
+    color: #495057;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #ced4da;
+    border-radius: 5px;
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+    box-sizing: border-box;
+}
+
+.app-input:focus {
+    border-color: #80bdff;
+    outline: 0;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+.app-button {
+    display: inline-block;
+    font-weight: 400;
+    color: #212529;
+    text-align: center;
+    vertical-align: middle;
+    user-select: none;
+    background-color: transparent;
+    border: 1px solid transparent;
+    padding: 10px 20px;
+    font-size: 1rem;
+    line-height: 1.5;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.app-button-small {
+    padding: 5px 10px;
+    font-size: 0.875rem;
+}
+
+.app-button-success {
+    color: #fff;
+    background-color: #28a745;
+    border-color: #28a745;
+}
+
+.app-button-success:hover {
+    background-color: #218838;
+    border-color: #1e7e34;
+    transform: translateY(-2px);
+}
+
+.app-button-primary {
+    color: #fff;
+    background-color: #007bff;
+    border-color: #007bff;
+}
+
+.app-button-primary:hover {
+    background-color: #0069d9;
+    border-color: #0062cc;
+    transform: translateY(-2px);
+}
+
+.app-button-danger {
+    color: #fff;
+    background-color: #dc3545;
+    border-color: #dc3545;
+}
+
+.app-button-danger:hover {
+    background-color: #c82333;
+    border-color: #bd2130;
+    transform: translateY(-2px);
+}
+
+/* Sistema de cuadrícula base */
+.app-grid-row {
+    display: flex;
+    flex-wrap: wrap;
+    margin-left: -15px; /* Compensa el padding de las columnas */
+    margin-right: -15px;
+}
+
+.app-grid-col {
+    padding-left: 15px;
+    padding-right: 15px;
+    box-sizing: border-box;
+}
+
+/* Estilos específicos para la disposición de 2 columnas principales */
+.app-main-content {
+    align-items: flex-start; /* Alinea las columnas arriba */
+}
+
+.app-col-left {
+    flex: 0 0 35%; /* 35% del ancho para el formulario */
+    max-width: 35%;
+    margin-bottom: 30px; /* Espacio si se apilan en móvil */
+}
+
+.app-col-right {
+    flex: 0 0 65%; /* 65% del ancho para las tarjetas */
+    max-width: 65%;
+    margin-bottom: 30px; /* Espacio si se apilan en móvil */
+}
+
+/* Columnas para las tarjetas de productos dentro de la columna derecha */
+.app-product-card-col {
+    flex: 0 0 50%; /* Dos tarjetas por fila en la columna derecha */
+    max-width: 50%;
+    margin-bottom: 30px;
+}
+
+/* Media queries para responsividad */
+@media (max-width: 991.98px) { /* Medium devices (tablets) */
+    .app-col-left, .app-col-right {
+        flex: 0 0 100%; /* Ambos se apilan en 100% de ancho */
+        max-width: 100%;
+    }
+    .app-product-card-col {
+        flex: 0 0 50%; /* Las tarjetas siguen siendo 2 por fila */
+        max-width: 50%;
+    }
+}
+
+@media (max-width: 767.98px) { /* Small devices (landscape phones) */
+    .app-product-card-col {
+        flex: 0 0 100%; /* Las tarjetas se apilan en 100% de ancho */
+        max-width: 100%;
+    }
+}
+
+/* Estilos para las tarjetas de productos */
+.app-card {
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.app-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.app-card-body {
+    padding: 25px;
+    flex-grow: 1;
+}
+
+.app-card-title {
+    color: #007bff;
+    font-weight: 600;
+    margin-bottom: 10px;
+    font-size: 1.25rem;
+}
+
+.app-card-text {
+    color: #6c757d;
+    font-size: 0.95rem;
+    margin-bottom: 8px;
+    line-height: 1.4;
+}
+
+.app-card-text strong {
+    color: #343a40;
+}
+
+.app-card-price {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #28a745;
+    margin-top: 15px;
+}
+
+.app-card-footer {
+    background-color: #f1f3f5;
+    border-top: 1px solid #e9ecef;
+    padding: 15px 25px;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}

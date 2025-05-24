@@ -1,0 +1,270 @@
+/* Base Styles */
+body {
+    font-family: 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    background-color: #f8f9fa; /* Light background */
+    margin: 0;
+    padding: 0;
+    line-height: 1.6;
+    color: #333;
+}
+
+/* Container */
+.debt-container {
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 30px;
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Titles */
+.debt-section-title {
+    font-size: 2.2rem;
+    color: #2c3e50; /* Darker blue-grey */
+    margin-bottom: 35px;
+    text-align: center;
+    font-weight: 700;
+    position: relative;
+    padding-bottom: 10px;
+}
+
+.debt-section-title::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: 0;
+    width: 80px;
+    height: 4px;
+    background-color: #007bff; /* Primary blue underline */
+    border-radius: 2px;
+}
+
+/* Inline Form for New Debt */
+.debt-form-inline {
+    display: flex;
+    flex-wrap: wrap; /* Allows items to wrap on smaller screens */
+    gap: 15px; /* Space between form elements */
+    margin-bottom: 40px;
+    padding: 25px;
+    background-color: #e9f7ef; /* Light green background for add form */
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    align-items: center; /* Vertically align items */
+    justify-content: center; /* Center horizontally */
+}
+
+.debt-input {
+    flex-grow: 1; /* Allows inputs to grow */
+    padding: 12px 18px;
+    border: 1px solid #ced4da;
+    border-radius: 8px;
+    font-size: 1rem;
+    color: #495057;
+    background-color: #fff;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    box-sizing: border-box; /* Include padding in element's total width */
+    min-width: 180px; /* Minimum width for inputs */
+}
+
+.debt-input:focus {
+    border-color: #007bff;
+    outline: none;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+.debt-input-inline {
+    /* Specific styles for inline inputs if needed, currently covered by .debt-input */
+}
+
+/* Buttons */
+.debt-button {
+    padding: 12px 25px;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
+    text-align: center;
+    white-space: nowrap; /* Prevent text wrapping */
+}
+
+.debt-button-success {
+    background-color: #28a745; /* Green */
+    color: #fff;
+}
+
+.debt-button-success:hover {
+    background-color: #218838;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(40, 167, 69, 0.3);
+}
+
+.debt-button-primary {
+    background-color: #007bff; /* Blue */
+    color: #fff;
+}
+
+.debt-button-primary:hover {
+    background-color: #0056b3;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0, 123, 255, 0.3);
+}
+
+/* Grid for Debt Cards */
+.debt-grid-row {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0 -15px; /* Compensate for column padding */
+}
+
+.debt-grid-col {
+    flex: 0 0 33.3333%; /* 3 cards per row */
+    max-width: 33.3333%;
+    padding: 15px; /* Space around cards */
+    box-sizing: border-box;
+}
+
+/* Debt Cards */
+.debt-card {
+    background-color: #fff;
+    border: 1px solid #e0e6ed;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+    height: 100%; /* Ensures uniform card height */
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.debt-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+.debt-card-header {
+    background-color: #007bff; /* Primary blue header */
+    color: #fff;
+    padding: 15px 20px;
+    font-size: 1.25rem;
+    font-weight: 600;
+    border-bottom: 1px solid #0056b3;
+    text-align: center;
+}
+
+.debt-card-body {
+    padding: 20px;
+    flex-grow: 1; /* Allows body to take up available space */
+}
+
+.debt-card-text {
+    margin-bottom: 10px;
+    font-size: 1rem;
+    color: #555;
+}
+
+.debt-card-text strong {
+    color: #333;
+    font-weight: 600;
+}
+
+.debt-saldo-pendiente {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: #dc3545; /* Red for pending balance */
+    margin-top: 15px;
+    padding-top: 10px;
+    border-top: 1px dashed #e0e6ed;
+}
+
+/* Abono Form within Card */
+.debt-abono-form {
+    margin-top: 20px;
+}
+
+.debt-input-group {
+    display: flex;
+    width: 100%;
+}
+
+.debt-input-group-field {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    flex-grow: 1;
+}
+
+.debt-input-group-append {
+    display: flex;
+    margin-left: -1px; /* Overlap border */
+}
+
+.debt-input-group-append .debt-button {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    padding: 12px 18px; /* Adjust padding for abono button */
+}
+
+/* Responsive Adjustments */
+@media (max-width: 992px) {
+    .debt-grid-col {
+        flex: 0 0 50%; /* 2 cards per row on tablets */
+        max-width: 50%;
+    }
+    .debt-form-inline {
+        flex-direction: column; /* Stack form inputs vertically */
+        align-items: stretch;
+    }
+    .debt-input-inline {
+        width: 100%; /* Full width for stacked inputs */
+    }
+    .debt-button-success {
+        width: 100%; /* Full width for button */
+    }
+}
+
+@media (max-width: 768px) {
+    .debt-section-title {
+        font-size: 1.8rem;
+    }
+    .debt-container {
+        padding: 20px;
+        margin: 20px auto;
+    }
+    .debt-grid-col {
+        flex: 0 0 100%; /* 1 card per row on mobile */
+        max-width: 100%;
+    }
+    .debt-input, .debt-button {
+        font-size: 0.9rem;
+        padding: 10px 15px;
+    }
+    .debt-card-header {
+        font-size: 1.1rem;
+    }
+    .debt-card-text {
+        font-size: 0.9rem;
+    }
+    .debt-saldo-pendiente {
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .debt-form-inline {
+        padding: 15px;
+    }
+    .debt-input-group {
+        flex-direction: column; /* Stack input and button for abono form */
+    }
+    .debt-input-group-field, .debt-input-group-append .debt-button {
+        border-radius: 8px !important; /* Force rounded corners when stacked */
+        width: 100%;
+        margin-left: 0;
+    }
+    .debt-input-group-append {
+        margin-top: 10px; /* Space between input and button */
+    }
+}

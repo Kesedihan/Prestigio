@@ -1,26 +1,32 @@
 package com.proyecto.prestigio.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.math.BigDecimal;
 
 @Entity
-@Table(name = "producto")
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class Producto {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer idproducto;
+    private Long id;
 
     private String nombre;
+
     private String descripcion;
-    private BigDecimal precioUnitario;
+
+    private BigDecimal precio;
+
     private Integer stock;
-    private Boolean estado;
+
+    private String tipo; // Ej: "Cosmético", "Medicamento", "Accesorio", etc.
+
+    private Boolean activo = true;
 }
+
 

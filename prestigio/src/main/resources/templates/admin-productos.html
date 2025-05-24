@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Administrar Productos</title>
+    <link rel="stylesheet" th:href="@{/css/navbar.css}">
+    <link rel="stylesheet" th:href="@{/css/productos/admin-productos.css}">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+<header>
+    <nav class="navbar navbar-expand-lg bg-white shadow-sm py-3">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <img th:src="@{/recursos/logo.png}" alt="Prestigio Logo" height="40">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+                <ul class="navbar-nav align-items-lg-center">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" th:href="@{/}">Inicio</a>
+                    </li>
+                    <li sec:authorize="hasRole('ADMIN')" class="nav-item">
+                        <a class="nav-link" th:href="@{/admin/productos}">Productos</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Galería</a>
+                    </li>
+                    <li sec:authorize="hasRole('ADMIN')" class="nav-item">
+                        <a class="nav-link" th:href="@{/admin/agenda}">Citas</a>
+                    </li>
+
+                    <li class="nav-item ms-lg-4 mt-3 mt-lg-0" sec:authorize="isAnonymous()">
+                        <a class="btn btn-primary custom-btn-login" th:href="@{/login}">Iniciar Sesión</a>
+                    </li>
+
+                    <li class="nav-item dropdown ms-lg-4 mt-3 mt-lg-0" sec:authorize="isAuthenticated()">
+                        <a class="btn btn-outline-secondary dropdown-toggle" href="#" id="userDropdown" role="button"
+                           data-bs-toggle="dropdown" aria-expanded="false">
+                            <span th:text="${nombreUsuario}">Usuario</span>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                            <li>
+                                <a class="dropdown-item" th:href="@{/mi-cuenta}">Mi cuenta</a>
+                            </li>
+                            <li>
+                                <form th:action="@{/logout}" method="post">
+                                    <button type="submit" class="dropdown-item">Cerrar sesión</button>
+                                </form>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</header>
+<div class="app-container">
+
+    <h2 class="app-title">Productos</h2>
+
+    <div class="app-grid-row app-main-content">
+        <div class="app-grid-col app-col-left">
+            <form th:if="${productoNuevo.id == null}" th:action="@{/admin/productos/agregar}" method="post" class="app-form">
+                <h3 class="app-form-title">Agregar Nuevo Producto</h3>
+                <div class="app-form-group">
+                    <label class="app-label">Nombre:</label>
+                    <input type="text" name="nombre" th:value="${productoNuevo.nombre}" class="app-input" required/>
+                </div>
+                <div class="app-form-group">
+                    <label class="app-label">Descripción:</label>
+                    <input type="text" name="descripcion" th:value="${productoNuevo.descripcion}" class="app-input" required/>
+                </div>
+                <div class="app-form-group">
+                    <label class="app-label">Precio:</label>
+                    <input type="number" name="precio" th:value="${productoNuevo.precio}" class="app-input" step="0.01" required/>
+                </div>
+                <div class="app-form-group">
+                    <label class="app-label">Stock:</label>
+                    <input type="number" name="stock" th:value="${productoNuevo.stock}" class="app-input" required/>
+                </div>
+                <div class="app-form-group">
+                    <label class="app-label">Tipo:</label>
+                    <input type="text" name="tipo" th:value="${productoNuevo.tipo}" class="app-input" required/>
+                </div>
+                <button type="submit" class="app-button app-button-success">Agregar Producto</button>
+            </form>
+
+            <form th:if="${productoNuevo.id != null}" th:action="@{/admin/productos/editar}" method="post" class="app-form">
+                <h3 class="app-form-title">Editar Producto</h3>
+                <input type="hidden" name="id" th:value="${productoNuevo.id}"/>
+                <div class="app-form-group">
+                    <label class="app-label">Nombre:</label>
+                    <input type="text" name="nombre" th:value="${productoNuevo.nombre}" class="app-input" required/>
+                </div>
+                <div class="app-form-group">
+                    <label class="app-label">Descripción:</label>
+                    <input type="text" name="descripcion" th:value="${productoNuevo.descripcion}" class="app-input" required/>
+                </div>
+                <div class="app-form-group">
+                    <label class="app-label">Precio:</label>
+                    <input type="number" name="precio" th:value="${productoNuevo.precio}" class="app-input" step="0.01" required/>
+                </div>
+                <div class="app-form-group">
+                    <label class="app-label">Stock:</label>
+                    <input type="number" name="stock" th:value="${productoNuevo.stock}" class="app-input" required/>
+                </div>
+                <div class="app-form-group">
+                    <label class="app-label">Tipo:</label>
+                    <input type="text" name="tipo" th:value="${productoNuevo.tipo}" class="app-input" required/>
+                </div>
+                <button type="submit" class="app-button app-button-primary">Actualizar Producto</button>
+            </form>
+        </div>
+
+        <div class="app-grid-col app-col-right">
+            <h3 class="app-section-title">Productos Disponibles</h3>
+            <div class="app-grid-row">
+                <div class="app-grid-col app-product-card-col" th:each="p : ${productos}">
+                    <div class="app-card">
+                        <div class="app-card-body">
+                            <h5 class="app-card-title" th:text="${p.nombre}">Nombre</h5>
+                            <p class="app-card-text" th:text="${p.descripcion}">Descripción</p>
+                            <p class="app-card-text app-card-price"><strong>Precio:</strong> $<span th:text="${p.precio}"></span></p>
+                            <p class="app-card-text"><strong>Stock:</strong> <span th:text="${p.stock}"></span></p>
+                            <p class="app-card-text"><strong>Tipo:</strong> <span th:text="${p.tipo}"></span></p>
+                        </div>
+                        <div class="app-card-footer">
+                            <form th:action="@{/admin/productos/eliminar}" method="post">
+                                <input type="hidden" name="id" th:value="${p.id}">
+                                <button class="app-button app-button-danger app-button-small" type="submit">Eliminar</button>
+                            </form>
+                            <form th:action="@{/admin/productos/editar/{id}(id=${p.id})}" method="get">
+                                <input type="hidden" name="id" th:value="${p.id}">
+                                <input type="hidden" name="nombre" th:value="${p.nombre}">
+                                <input type="hidden" name="descripcion" th:value="${p.descripcion}">
+                                <input type="hidden" name="precio" th:value="${p.precio}">
+                                <input type="hidden" name="stock" th:value="${p.stock}">
+                                <input type="hidden" name="tipo" th:value="${p.tipo}">
+                                <button class="app-button app-button-primary app-button-small" type="submit">Editar</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

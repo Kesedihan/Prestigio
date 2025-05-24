@@ -23,17 +23,14 @@
                     <li class="nav-item">
                         <a class="nav-link active" aria-current="page" th:href="@{/}">Inicio</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Productos</a>
+                    <li sec:authorize="hasRole('ADMIN')" class="nav-item">
+                        <a class="nav-link" th:href="@{/admin/productos}">Productos</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#">Galería</a>
                     </li>
                     <li sec:authorize="hasRole('ADMIN')" class="nav-item">
-                        <a class="nav-link" th:href="@{/admin/agenda}">Agendar cita</a>
-                    </li>
-                    <li sec:authorize="hasRole('ADMIN')" class="nav-item">
-                        <a class="nav-link" th:href="@{/admin/citas}">Citas Agendadas</a>
+                        <a class="nav-link" th:href="@{/admin/agenda}">Citas</a>
                     </li>
 
                     <li class="nav-item ms-lg-4 mt-3 mt-lg-0" sec:authorize="isAnonymous()">

@@ -9,7 +9,7 @@
   <link rel="stylesheet" th:href="@{/css/index.css}" >
   <link rel="stylesheet" th:href="@{/css/navbar.css}">
   <link >
-  <title>Title</title>
+  <title>Prestigio</title>
 </head>
 <body>
 <header>
@@ -25,10 +25,13 @@
       <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
         <ul class="navbar-nav align-items-lg-center">
           <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="#">Inicio</a>
+            <a class="nav-link active" aria-current="page" th:href="@{/}">Inicio</a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Productos</a>
+          <li sec:authorize="hasRole('CLIENTE')" class="nav-item">
+            <a class="nav-link" th:href="@{/productos}">Productos</a>
+          </li>
+          <li sec:authorize="hasRole('ADMIN')" class="nav-item">
+            <a class="nav-link" th:href="@{/admin/productos}">Productos</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="#">Galería</a>
@@ -40,10 +43,7 @@
 
           <li class="nav-item">
           <li sec:authorize="hasRole('ADMIN')" class="nav-item">
-            <a class="nav-link" th:href="@{/admin/agenda}">Agendar cita</a>
-          </li>
-          <li sec:authorize="hasRole('ADMIN')" class="nav-item">
-            <a class="nav-link" th:href="@{/admin/citas}">Citas Agendadas</a>
+            <a class="nav-link" th:href="@{/admin/agenda}">Citas</a>
           </li>
 
           <li class="nav-item ms-lg-4 mt-3 mt-lg-0" sec:authorize="isAnonymous()">
@@ -77,7 +77,7 @@
   <div class="overlay-p">
     <div class="overlay">
       <h3>Descubre la belleza que<br>resalta lo mejor de ti</h3>
-      <a href="#productos"><button>Productos</button></a>
+      <a th:href="@{/productos}"><button>Productos</button></a>
     </div>
   </div>
 </section>
@@ -85,7 +85,7 @@
 <section class="info">
   <div class="text">
     <h3>Todo lo que amas:<br><span>belleza, cuidado y atención.</span></h3>
-    <a href="#agenda"><button>Agenda tu cita</button></a>
+    <a th:href="@{/admin/agenda}"><button>Agenda tu cita</button></a>
 
   </div>
   <div class="image">
