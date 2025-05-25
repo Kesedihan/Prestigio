@@ -2,15 +2,19 @@ package com.proyecto.prestigio.controller;
 
 import com.proyecto.prestigio.model.Producto;
 import com.proyecto.prestigio.repository.ProductoRepository;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.ui.Model;
 
 import java.math.BigDecimal;
+import java.net.MalformedURLException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
-
 
 @Controller
 @RequestMapping("/productos")
@@ -40,6 +44,21 @@ public class ProductoClienteController {
 
         model.addAttribute("productos", productos);
         return "productos";
+    }
+
+    // Nuevo endpoint para servir imágenes desde /uploads
+    @GetMapping("/uploads/{nombreImagen:.+}")
+    @ResponseBody
+    public ResponseEntity<Resource> verImagen(@PathVariable String nombreImagen) throws MalformedURLException {
+        Path ruta = Paths.get("uploads").resolve(nombreImagen).toAbsolutePath();
+        Resource recurso = new UrlResource(ruta.toUri());
+        if (recurso.exists() && recurso.isReadable()) {
+            return ResponseEntity.ok()
+                    .header(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=\"" + recurso.getFilename() + "\"")
+                    .body(recurso);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 }
 

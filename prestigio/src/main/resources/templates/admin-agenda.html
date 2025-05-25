@@ -1,59 +1,93 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html th:lang="${#locale.language}" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
-    <title>Admin Dashboard - Prestigio</title>
+    <title th:text="#{adminDashboard.titulo}">Admin Dashboard - Prestigio</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" th:href="@{/css/navbar.css}">
+    <link rel="stylesheet" th:href="@{/css/footer.css}">
     <link rel="stylesheet" th:href="@{/css/admin-agenda/admin-dashboard.css}">
+</head>
 <body>
-
 <header>
     <nav class="navbar navbar-expand-lg bg-white shadow-sm py-3">
         <div class="container">
-            <a class="navbar-brand" href="#">
+            <a class="navbar-brand" th:href="@{/}">
                 <img th:src="@{/recursos/logo.png}" alt="Prestigio Logo" height="40">
             </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
                 <ul class="navbar-nav align-items-lg-center">
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" th:href="@{/}">Inicio</a>
-                    </li>
-                    <li sec:authorize="hasRole('ADMIN')" class="nav-item">
-                        <a class="nav-link" th:href="@{/admin/productos}">Productos</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Galería</a>
-                    </li>
-                    <li sec:authorize="hasRole('ADMIN')" class="nav-item">
-                        <a class="nav-link" th:href="@{/admin/agenda}">Citas</a>
+                        <a class="nav-link active" aria-current="page" th:href="@{/}" th:text="#{nav.inicio}">Inicio</a>
                     </li>
 
+                    <li sec:authorize="isAnonymous()" class="nav-item">
+                        <a class="nav-link" th:href="@{/login}" th:text="#{nav.agendar}">Agendar cita</a>
+                    </li>
+
+                    <li sec:authorize="hasRole('CLIENTE')" class="nav-item">
+                        <a class="nav-link" th:href="@{/cliente/agendar}" th:text="#{nav.agendar}">Agendar cita</a>
+                    </li>
+                    <li sec:authorize="hasRole('ADMIN')" class="nav-item">
+                        <a class="nav-link" th:href="@{/admin/agenda}" th:text="#{nav.agendar}">Agendar cita</a>
+                    </li>
+                    <li sec:authorize="hasRole('CLIENTE')" class="nav-item">
+                        <a class="nav-link" th:href="@{/productos}" th:text="#{nav.productos}">Productos</a>
+                    </li>
+                    <li sec:authorize="hasRole('ADMIN')" class="nav-item">
+                        <a class="nav-link" th:href="@{/admin/productos}" th:text="#{nav.productos}">Productos</a>
+                    </li>
+                    <li class="nav-item" sec:authorize="isAnonymous()">
+                        <a class="nav-link" th:href="@{/productos}" th:text="#{nav.productos}">Productos</a>
+                    </li>
+                    <li sec:authorize="hasRole('ADMIN')" class="nav-item">
+                        <a class="nav-link" th:href="@{/admin/deudas}" th:text="#{nav.deuda}">Deudas</a>
+                    </li>
+
+                    <li sec:authorize="hasRole('ADMIN')" class="nav-item">
+                        <a class="nav-link" th:href="@{/admin/ventas}">
+                            <i class="fa fa-cash-register"></i>
+                        </a>
+                    </li>
+                    <li sec:authorize="hasRole('CLIENTE')" class="nav-item">
+                        <a class="nav-link" th:href="@{/carrito}" th:title="#{nav.verCarrito}">
+                            <i class="fa fa-shopping-cart"></i>
+                        </a>
+                    </li>
                     <li class="nav-item ms-lg-4 mt-3 mt-lg-0" sec:authorize="isAnonymous()">
-                        <a class="btn btn-primary custom-btn-login" th:href="@{/login}">Iniciar Sesión</a>
+                        <a class="btn btn-primary custom-btn-login" th:href="@{/login}" th:text="#{nav.iniciarSesion}">Iniciar Sesión</a>
                     </li>
-
                     <li class="nav-item dropdown ms-lg-4 mt-3 mt-lg-0" sec:authorize="isAuthenticated()">
-                        <a class="btn btn-outline-secondary dropdown-toggle" href="#" id="userDropdown" role="button"
+                        <a class="btn btn-outline-secondary dropdown-toggle" id="userDropdown" role="button"
                            data-bs-toggle="dropdown" aria-expanded="false">
-                            <span th:text="${nombreUsuario}">Usuario</span>
+                            <span  class="fas fa-user fa-lg"></span>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
                             <li>
-                                <a class="dropdown-item" th:href="@{/mi-cuenta}">Mi cuenta</a>
+                                <a class="dropdown-item" th:href="@{/mi-cuenta}" th:text="#{nav.miCuenta}">Mi cuenta</a>
                             </li>
                             <li>
                                 <form th:action="@{/logout}" method="post">
-                                    <button type="submit" class="dropdown-item">Cerrar sesión</button>
+                                    <button type="submit" class="dropdown-item" th:text="#{nav.cerrarSesion}">Cerrar sesión</button>
                                 </form>
                             </li>
                         </ul>
                     </li>
                 </ul>
+                <div class="language-selector ms-lg-4 mt-3 mt-lg-0">
+                    <form method="get" th:action="@{/(lang=${param.lang})}">
+                        <select name="lang" onchange="this.form.submit()" class="form-select form-select-sm">
+                            <option value="es" th:selected="${#locale.language == 'es'}">Español</option>
+                            <option value="en" th:selected="${#locale.language == 'en'}">English</option>
+                            <option value="pt" th:selected="${#locale.language == 'pt'}">Português</option>
+                        </select>
+                    </form>
+                </div>
             </div>
         </div>
     </nav>
@@ -62,90 +96,90 @@
 <div class="dashboard-wrapper">
     <div class="sidebar">
         <div class="sidebar-header">
-            <h4>Panel de Administración</h4>
+            <h4 th:text="#{adminDashboard.sidebar.titulo}">Panel de Administración</h4>
         </div>
-        <a th:href="@{/admin/citas}" sec:authorize="hasRole('ADMIN')"  class="menu-link menu-item"><i class="fas fa-calendar-check menu-icon"></i>Citas Agendadas</a>
+        <a th:href="@{/admin/citas}" sec:authorize="hasRole('ADMIN')"  class="menu-link menu-item"><i class="fas fa-calendar-check menu-icon"></i><span th:text="#{adminCitas.nav.citasAgendadas}">Citas Agendadas</span></a>
         <ul class="sidebar-menu">
-            <li class="menu-item"><a href="#add-service-section" class="menu-link"><i class="fas fa-plus-circle menu-icon"></i> Agregar Servicio</a></li>
-            <li class="menu-item"><a href="#add-availability-section" class="menu-link"><i class="fas fa-calendar-plus menu-icon"></i> Agregar Disponibilidad</a></li>
-            <li class="menu-item"><a href="#schedule-client-appointment-section" class="menu-link"><i class="fas fa-calendar-check menu-icon"></i> Agendar Cita para Cliente</a></li>
-            <li class="menu-item"><a href="#available-appointments-list-section" class="menu-link active"><i class="fas fa-list-alt menu-icon"></i> Citas Disponibles</a></li>
+            <li class="menu-item"><a href="#add-service-section" class="menu-link"><i class="fas fa-plus-circle menu-icon"></i> <span th:text="#{adminDashboard.sidebar.agregarServicio}">Agregar Servicio</span></a></li>
+            <li class="menu-item"><a href="#add-availability-section" class="menu-link"><i class="fas fa-calendar-plus menu-icon"></i> <span th:text="#{adminDashboard.sidebar.agregarDisponibilidad}">Agregar Disponibilidad</span></a></li>
+            <li class="menu-item"><a href="#schedule-client-appointment-section" class="menu-link"><i class="fas fa-calendar-check menu-icon"></i> <span th:text="#{adminDashboard.sidebar.agendarCitaCliente}">Agendar Cita para Cliente</span></a></li>
+            <li class="menu-item"><a href="#available-appointments-list-section" class="menu-link active"><i class="fas fa-list-alt menu-icon"></i> <span th:text="#{adminDashboard.sidebar.citasDisponibles}">Citas Disponibles</span></a></li>
         </ul>
     </div>
 
     <div class="main-content-area">
-        <h1 class="dashboard-title text-center mb-5">Administrar Agenda</h1>
+        <h1 class="dashboard-title text-center mb-5" th:text="#{adminDashboard.administrarAgenda}">Administrar Agenda</h1>
 
         <section id="add-service-section" class="content-section form-card mb-5">
-            <h3 class="form-card-title">Agregar nuevo servicio</h3>
+            <h3 class="form-card-title" th:text="#{adminDashboard.agregarServicio.titulo}">Agregar nuevo servicio</h3>
             <form th:action="@{/admin/agenda/servicio}" method="post">
                 <div class="form-group form-group-custom">
-                    <label for="serviceName">Nombre del Servicio:</label>
-                    <input type="text" class="form-control form-control-custom" id="serviceName" name="nombre" placeholder="Nombre" required>
+                    <label for="serviceName" th:text="#{adminDashboard.agregarServicio.nombre}">Nombre del Servicio:</label>
+                    <input type="text" class="form-control form-control-custom" id="serviceName" name="nombre" th:placeholder="#{adminDashboard.agregarServicio.placeholderNombre}" required>
                 </div>
                 <div class="form-group form-group-custom">
-                    <label for="serviceDescription">Descripción:</label>
-                    <textarea class="form-control form-control-custom" id="serviceDescription" name="descripcion" placeholder="Descripción"></textarea>
+                    <label for="serviceDescription" th:text="#{adminDashboard.agregarServicio.descripcion}">Descripción:</label>
+                    <textarea class="form-control form-control-custom" id="serviceDescription" name="descripcion" th:placeholder="#{adminDashboard.agregarServicio.placeholderDescripcion}"></textarea>
                 </div>
                 <div class="form-group form-group-custom">
-                    <label for="serviceDuration">Duración (minutos):</label>
-                    <input type="number" class="form-control form-control-custom" id="serviceDuration" name="duracion" placeholder="Duración (min)" required>
+                    <label for="serviceDuration" th:text="#{adminDashboard.agregarServicio.duracion}">Duración (minutos):</label>
+                    <input type="number" class="form-control form-control-custom" id="serviceDuration" name="duracion" th:placeholder="#{adminDashboard.agregarServicio.placeholderDuracion}" required>
                 </div>
                 <div class="form-group form-group-custom">
-                    <label for="servicePrice">Precio:</label>
-                    <input type="number" class="form-control form-control-custom" id="servicePrice" name="precio" placeholder="Precio" required>
+                    <label for="servicePrice" th:text="#{adminDashboard.agregarServicio.precio}">Precio:</label>
+                    <input type="number" class="form-control form-control-custom" id="servicePrice" name="precio" th:placeholder="#{adminDashboard.agregarServicio.placeholderPrecio}" required>
                 </div>
                 <div class="d-flex justify-content-end">
-                    <button type="submit" class="btn btn-success custom-submit-btn">Agregar Servicio</button>
+                    <button type="submit" class="btn btn-success custom-submit-btn" th:text="#{adminDashboard.agregarServicio.boton}">Agregar Servicio</button>
                 </div>
             </form>
         </section>
 
         <section id="add-availability-section" class="content-section form-card mb-5">
-            <h3 class="form-card-title">Agregar disponibilidad</h3>
+            <h3 class="form-card-title" th:text="#{adminDashboard.agregarDisponibilidad.titulo}">Agregar disponibilidad</h3>
             <form th:action="@{/admin/agenda/disponibilidad}" method="post">
                 <div class="form-group form-group-custom">
-                    <label for="availabilityService">Servicio:</label>
+                    <label for="availabilityService" th:text="#{adminDashboard.agregarDisponibilidad.servicio}">Servicio:</label>
                     <select class="form-control form-control-custom" id="availabilityService" name="servicioId" required>
-                        <option value="">Seleccione Servicio...</option>
+                        <option value="" th:text="#{adminDashboard.agregarDisponibilidad.seleccioneServicio}">Seleccione Servicio...</option>
                         <option th:each="s : ${servicios}" th:value="${s.id}" th:text="${s.nombre}">Servicio</option>
                     </select>
                 </div>
                 <div class="form-group form-group-custom">
-                    <label for="availabilityDateTime">Fecha y Hora:</label>
+                    <label for="availabilityDateTime" th:text="#{adminDashboard.agregarDisponibilidad.fechaHora}">Fecha y Hora:</label>
                     <input type="datetime-local" class="form-control form-control-custom" id="availabilityDateTime" name="fechaHora" required>
                 </div>
                 <div class="d-flex justify-content-end">
-                    <button type="submit" class="btn btn-primary custom-submit-btn">Agregar Disponibilidad</button>
+                    <button type="submit" class="btn btn-primary custom-submit-btn" th:text="#{adminDashboard.agregarDisponibilidad.boton}">Agregar Disponibilidad</button>
                 </div>
             </form>
         </section>
 
         <section id="schedule-client-appointment-section" class="content-section form-card mb-5">
-            <h3 class="form-card-title">Agendar cita para un cliente</h3>
+            <h3 class="form-card-title" th:text="#{adminDashboard.agendarCitaCliente.titulo}">Agendar cita para un cliente</h3>
 
-            <!-- Filtro de clientes -->
             <div class="form-group">
-                <label for="buscarCliente">Buscar cliente:</label>
-                <input type="text" class="form-control" id="buscarCliente" placeholder="Buscar por nombre, apellido, documento o email...">
+                <label for="buscarCliente" th:text="#{adminDashboard.agendarCitaCliente.buscarCliente}">Buscar cliente:</label>
+                <input type="text" class="form-control" id="buscarCliente" th:placeholder="#{adminDashboard.agendarCitaCliente.placeholderBuscarCliente}">
             </div>
 
 
             <form th:action="@{/admin/agenda/agendar}" method="post">
                 <div class="form-group form-group-custom">
-                    <label for="usuarioSelect">Cliente:</label>
+                    <label for="usuarioSelect" th:text="#{adminDashboard.agendarCitaCliente.cliente}">Cliente:</label>
                     <select id="usuarioSelect" class="form-control form-control-custom" name="usuarioId" required>
-                        <option value="">Seleccione Cliente...</option>
+                        <option value="" th:text="#{adminDashboard.agendarCitaCliente.seleccioneCliente}">Seleccione Cliente...</option>
                         <option th:each="u : ${usuarios}"
                                 th:value="${u.id}"
                                 th:data-search="|${u.nombre} ${u.apellido} ${u.email}|"
                                 th:text="${u.nombre + ' ' + u.apellido + ' - ' + u.email}">
-                        </option></select>
+                        </option>
+                    </select>
                 </div>
                 <div class="form-group form-group-custom">
-                    <label for="disponibilidadSelect">Disponibilidad:</label>
+                    <label for="disponibilidadSelect" th:text="#{adminDashboard.agendarCitaCliente.disponibilidad}">Disponibilidad:</label>
                     <select id="disponibilidadSelect" class="form-control form-control-custom" name="disponibilidadId" required>
-                        <option value="">Seleccione Disponibilidad...</option>
+                        <option value="" th:text="#{adminDashboard.agendarCitaCliente.seleccioneDisponibilidad}">Seleccione Disponibilidad...</option>
                         <option th:each="d : ${disponibilidades}"
                                 th:value="${d.id}"
                                 th:text="|${#temporals.format(d.fechaHora, 'dd/MM/yyyy HH:mm')} - ${d.servicio.nombre}|">
@@ -153,20 +187,20 @@
                     </select>
                 </div>
                 <div class="d-flex justify-content-end">
-                    <button type="submit" class="btn btn-success custom-submit-btn">Agendar cita</button>
+                    <button type="submit" class="btn btn-success custom-submit-btn" th:text="#{adminDashboard.agendarCitaCliente.boton}">Agendar cita</button>
                 </div>
             </form>
         </section>
 
         <section id="available-appointments-list-section" class="content-section form-card mb-5">
-            <h3 class="form-card-title">Citas Disponibles</h3>
+            <h3 class="form-card-title" th:text="#{adminDashboard.citasDisponibles.titulo}">Citas Disponibles</h3>
             <div class="table-responsive">
                 <table class="table table-bordered custom-table">
                     <thead>
                     <tr>
-                        <th>Servicio</th>
-                        <th>Fecha y hora inicial</th>
-                        <th>Acción</th>
+                        <th th:text="#{adminDashboard.citasDisponibles.tabla.servicio}">Servicio</th>
+                        <th th:text="#{adminDashboard.citasDisponibles.tabla.fechaHoraInicial}">Fecha y hora inicial</th>
+                        <th th:text="#{adminDashboard.citasDisponibles.tabla.accion}">Acción</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -174,32 +208,35 @@
                         <td th:text="${d.servicio.nombre}">PressOn</td>
                         <td th:text="${#temporals.format(d.fechaHora, 'dd/MM/yyyy HH:mm')}">12/04/2025 10:00</td>
                         <td>
-                            <a href="#schedule-client-appointment-section"><button class="btn btn-sm custom-assign-btn">Asignar</button></a>
+                            <a href="#schedule-client-appointment-section"><button class="btn btn-sm custom-assign-btn" th:text="#{adminDashboard.citasDisponibles.tabla.asignar}">Asignar</button></a>
                         </td>
-
                     </tr>
-
-
                     <tr th:if="${#lists.isEmpty(disponibilidades)}">
-                        <td colspan="3" class="text-center">No hay citas disponibles.</td>
+                        <td colspan="3" class="text-center" th:text="#{adminDashboard.citasDisponibles.noCitas}">No hay citas disponibles.</td>
                     </tr>
                     </tbody>
                 </table>
             </div>
         </section>
 
-    </div></div><footer class="footer mt-5 p-3 d-flex justify-content-between align-items-center">
-    <div class="footer-brand">Prestigio</div>
-    <div class="footer-copyright">
-        Copyright © 2024 Website. All rights reserved.
     </div>
-    <div class="social-icons">
-        <a href="#" class="social-icon-link mr-2"><i class="fab fa-facebook-f"></i></a>
-        <a href="#" class="social-icon-link mr-2"><i class="fab fa-instagram"></i></a>
-        <a href="#" class="social-icon-link mr-2"><i class="fab fa-linkedin-in"></i></a>
-        <a href="#" class="social-icon-link"><i class="fab fa-youtube"></i></a>
+</div>
+<footer class="footer">
+    <div class="container d-flex flex-column flex-md-row justify-content-between align-items-center py-4">
+        <div class="footer-left">
+            <img th:src="@{/recursos/logo.png}" alt="Prestigio Logo" class="footer-logo">
+        </div>
+        <div class="footer-center text-center text-md-start my-3 my-md-0">
+            <p>&copy; 2024 Website. All rights reserved.</p>
+        </div>
+        <div class="footer-right">
+            <a href="https://www.instagram.com/prestigionailspa?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank" aria-label="Instagram">
+                <i class="fab fa-instagram footer-icon"></i>
+            </a>
+        </div>
     </div>
 </footer>
+
 
 <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>

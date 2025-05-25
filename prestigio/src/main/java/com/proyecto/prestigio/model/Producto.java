@@ -27,6 +27,9 @@ public class Producto {
     private String tipo; // Ej: "Cosmético", "Medicamento", "Accesorio", etc.
 
     private Boolean activo = true;
+
+    private String imagen;
+
 }
 
 

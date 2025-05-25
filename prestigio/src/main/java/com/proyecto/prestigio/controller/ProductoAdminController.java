@@ -3,13 +3,15 @@ package com.proyecto.prestigio.controller;
 import com.proyecto.prestigio.model.Producto;
 import com.proyecto.prestigio.repository.ProductoRepository;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.ui.Model;
-
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 
 @Controller
 @RequestMapping("/admin/productos")
@@ -28,9 +30,16 @@ public class ProductoAdminController {
         return "admin-productos";
     }
 
-
     @PostMapping("/agregar")
-    public String agregarProducto(@ModelAttribute Producto producto) {
+    public String agregarProducto(@ModelAttribute Producto producto,
+                                  @RequestParam("imagenFile") MultipartFile imagenFile) throws IOException {
+        if (!imagenFile.isEmpty()) {
+            String nombreArchivo = System.currentTimeMillis() + "_" + imagenFile.getOriginalFilename();
+            Path ruta = Paths.get("uploads").resolve(nombreArchivo).toAbsolutePath();
+            Files.createDirectories(ruta.getParent());
+            Files.copy(imagenFile.getInputStream(), ruta, StandardCopyOption.REPLACE_EXISTING);
+            producto.setImagen(nombreArchivo);
+        }
         productoRepository.save(producto);
         return "redirect:/admin/productos";
     }
@@ -44,15 +53,24 @@ public class ProductoAdminController {
     }
 
     @PostMapping("/editar")
-    public String editarProducto(@ModelAttribute Producto producto) {
-        if (!productoRepository.existsById(producto.getId())) {
+    public String editarProducto(@ModelAttribute Producto producto,
+                                 @RequestParam(value = "imagenFile", required = false) MultipartFile imagenFile) throws IOException {
+        if (producto.getId() == null || !productoRepository.existsById(producto.getId())) {
             return "redirect:/admin/productos?error=notfound";
+        }
+        Producto existente = productoRepository.findById(producto.getId()).orElse(null);
+        if (imagenFile != null && !imagenFile.isEmpty()) {
+            String nombreArchivo = System.currentTimeMillis() + "_" + imagenFile.getOriginalFilename();
+            Path ruta = Paths.get("uploads").resolve(nombreArchivo).toAbsolutePath();
+            Files.createDirectories(ruta.getParent());
+            Files.copy(imagenFile.getInputStream(), ruta, java.nio.file.StandardCopyOption.REPLACE_EXISTING);
+            producto.setImagen(nombreArchivo);
+        } else if (existente != null) {
+            producto.setImagen(existente.getImagen());
         }
         productoRepository.save(producto);
         return "redirect:/admin/productos";
     }
-
-
 
     @PostMapping("/eliminar")
     public String eliminarProducto(@RequestParam Long id) {
@@ -60,5 +78,3 @@ public class ProductoAdminController {
         return "redirect:/admin/productos";
     }
 }
-
-

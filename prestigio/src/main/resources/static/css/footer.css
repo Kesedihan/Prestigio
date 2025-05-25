@@ -1,0 +1,88 @@
+/* Estilos generales del footer */
+.footer {
+    background-color: #f8f9fa; /* Un color de fondo muy claro, casi blanco */
+    border-top: 1px solid #e0e0e0; /* Un borde superior sutil como en la imagen */
+    padding: 15px 0; /* ¡REDUCIDO! Menos padding superior e inferior */
+    color: #495057; /* Color de texto general para el footer */
+    font-size: 0.9rem;
+}
+
+/* Estilos para el contenedor de los elementos del footer (dentro del .container) */
+.footer > .container {
+    /* Las clases de Bootstrap py-4 (padding-top y padding-bottom de 1.5rem)
+       ya están en el HTML. Si quieres menos padding, puedes:
+       1. Eliminar py-4 del HTML y controlar el padding aquí.
+       2. Usar una clase de Bootstrap con menos padding como py-2 o py-3.
+       Por ahora, te daré la opción de controlarlo desde aquí si no puedes cambiar el HTML.
+    */
+    /* Si el py-4 en el HTML persiste y quieres menos padding vertical, puedes intentar sobrescribirlo: */
+    /* padding-top: 15px !important; */
+    /* padding-bottom: 15px !important; */
+
+    /* Si lo que quieres es reducir el ancho máximo del contenido,
+       y el container de Bootstrap es demasiado grande para tu gusto,
+       puedes aplicar un max-width aquí.
+       Sin embargo, esto podría romper la responsividad del container.
+       Generalmente, el container de Bootstrap ya tiene anchos máximos definidos
+       para diferentes breakpoints.
+       Si el problema es que el *fondo* del footer es muy ancho y el contenido no,
+       entonces el CSS de .footer ya lo maneja.
+
+       Si te refieres a que el contenido (logo, texto, iconos) está demasiado
+       separado horizontalmente, es porque 'justify-content-between'
+       está distribuyendo el espacio. Podemos ajustar eso o usar 'justify-content-around'.
+    */
+}
+
+/* Estilo para el logo */
+.footer-logo {
+    height: 35px; /* ¡REDUCIDO! Ajusta la altura del logo si también lo ves grande */
+    max-width: 100%;
+}
+
+/* Estilo para el texto de copyright */
+.footer-center p {
+    margin-bottom: 0;
+    font-size: 0.9rem; /* ¡REDUCIDO! Un tamaño de fuente ligeramente más pequeño */
+    color: #555;
+}
+
+/* Estilo para los iconos sociales */
+.footer-icon {
+    font-size: 1.3rem; /* ¡REDUCIDO! Tamaño del icono ligeramente más pequeño */
+    color: #888;
+    transition: color 0.3s ease;
+    margin: 0 6px; /* ¡REDUCIDO! Menos espacio entre iconos */
+}
+
+.footer-icon:hover {
+    color: #007bff;
+}
+
+/* Media Queries para ajustar en pantallas pequeñas */
+@media (max-width: 767.98px) {
+    .footer .container {
+        flex-direction: column;
+        text-align: center;
+        padding: 15px; /* ¡REDUCIDO! Menos padding general en móvil */
+    }
+
+    .footer-left,
+    .footer-center,
+    .footer-right {
+        margin-bottom: 10px; /* ¡REDUCIDO! Menos espacio entre secciones apiladas */
+        width: 100%;
+    }
+
+    .footer-left { order: 1; }
+    .footer-center { order: 2; }
+    .footer-right {
+        order: 3;
+        margin-bottom: 0;
+    }
+
+    .footer-icon {
+        font-size: 1.2rem; /* ¡REDUCIDO! Tamaño del icono en móvil */
+        margin: 0 4px; /* ¡REDUCIDO! Menos margen entre iconos en móvil */
+    }
+}

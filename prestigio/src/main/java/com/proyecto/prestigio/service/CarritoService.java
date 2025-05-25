@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class CarritoService {
@@ -42,6 +43,15 @@ public class CarritoService {
             carrito.getItems().add(item); // <-- IMPORTANTE: actualiza la lista en memoria
             carritoRepository.save(carrito);
         }
+    }
+
+    public void eliminarItems(Carrito carrito, List<Long> productosSeleccionados) {
+        List<CarritoItem> itemsAEliminar = carrito.getItems().stream()
+                .filter(item -> productosSeleccionados.contains(item.getProducto().getId()))
+                .collect(Collectors.toList());
+        carrito.getItems().removeAll(itemsAEliminar);
+        carritoItemRepository.deleteAll(itemsAEliminar);
+        carritoRepository.save(carrito);
     }
 
     public void eliminarProducto(Carrito carrito, Long productoId) {

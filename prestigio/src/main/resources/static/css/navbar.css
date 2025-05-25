@@ -37,5 +37,36 @@
     color: white;
 }
 
+/* Estilos para el contenedor del selector de idioma */
+.language-selector {
+    /* Utiliza flexbox para alinear el selector horizontalmente
+       junto a los demás elementos de la barra de navegación */
+    display: flex;
+    align-items: center; /* Centra verticalmente el selector */
+    margin-left: 1rem; /* Espacio a la izquierda, similar a los otros elementos de nav-item */
+}
 
+/* Ajustes para el select del idioma dentro del contenedor */
+.language-selector .form-select {
+    width: auto; /* El ancho se ajusta al contenido */
+    min-width: 120px; /* Ancho mínimo para que se vea bien */
+    /* Puedes ajustar el tamaño de la fuente si es necesario */
+    /* font-size: 0.875rem; */
+}
+
+/* Ajustes para pantallas pequeñas (modo móvil/hamburguesa) */
+@media (max-width: 991.98px) {
+    .language-selector {
+        /* Para pantallas más pequeñas, el selector de idioma
+           se mostrará en su propia línea o debajo de los otros elementos. */
+        margin-top: 1rem; /* Añade espacio superior para separarlo de los ítems de nav */
+        margin-left: 0; /* Elimina el margen izquierdo para que se alinee con los demás ítems */
+        justify-content: flex-start; /* Alinea a la izquierda en dispositivos pequeños */
+    }
+
+    .language-selector .form-select {
+        width: 100%; /* Ocupa todo el ancho disponible en móvil */
+        max-width: 200px; /* Limita el ancho máximo en móvil si es necesario */
+    }
+}
 

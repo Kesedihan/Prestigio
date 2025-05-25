@@ -16,20 +16,10 @@ public class VentaService {
     @Autowired
     private VentaItemRepository ventaItemRepository;
     @Autowired
-    private CarritoService carritoService;
-    @Autowired
-    private CarritoRepository carritoRepository;
-    @Autowired
-    private CarritoItemRepository carritoItemRepository;
-
-    @Autowired
     private ProductoRepository productoRepository;
 
-    public Venta registrarCompra(Usuario usuario, String direccion, String tipoPago) {
-        Carrito carrito = carritoService.obtenerOCrearCarrito(usuario);
-        List<CarritoItem> items = carritoService.obtenerItems(carrito);
-
-        double total = items.stream()
+    public void registrarCompraConItems(Usuario usuario, String direccion, String tipoPago, List<CarritoItem> itemsSeleccionados) {
+        double total = itemsSeleccionados.stream()
                 .mapToDouble(item -> item.getProducto().getPrecio().doubleValue() * item.getCantidad())
                 .sum();
 
@@ -43,7 +33,7 @@ public class VentaService {
                 .build();
         venta = ventaRepository.save(venta);
 
-        for (CarritoItem item : items) {
+        for (CarritoItem item : itemsSeleccionados) {
             Producto producto = item.getProducto();
             producto.setStock(producto.getStock() - item.getCantidad());
             productoRepository.save(producto);
@@ -56,9 +46,6 @@ public class VentaService {
                     .build();
             ventaItemRepository.save(ventaItem);
         }
-
-        carritoService.vaciarCarrito(carrito);
-        return venta;
     }
 
     public List<Venta> obtenerHistorialPorUsuario(Usuario usuario) {

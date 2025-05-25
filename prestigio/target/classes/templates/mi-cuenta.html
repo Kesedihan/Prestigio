@@ -1,68 +1,96 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<html th:lang="${#locale.language}" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
-    <title>Mi Cuenta</title>
+    <title th:text="#{miCuenta.titulo}">Mi Cuenta</title>
 
     <link rel="stylesheet" th:href="@{/css/mi-cuenta/mi-cuenta.css}">
     <link rel="stylesheet" th:href="@{/css/navbar.css}">
+    <link rel="stylesheet" th:href="@{/css/footer.css}">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
 <body>
+
 <header>
     <nav class="navbar navbar-expand-lg bg-white shadow-sm py-3">
         <div class="container">
-            <a class="navbar-brand" href="#">
+            <a class="navbar-brand" th:href="@{/}">
                 <img th:src="@{/recursos/logo.png}" alt="Prestigio Logo" height="40">
-
             </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
                 <ul class="navbar-nav align-items-lg-center">
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" th:href="@{/}">Inicio</a>
+                        <a class="nav-link active" aria-current="page" th:href="@{/}" th:text="#{nav.inicio}">Inicio</a>
                     </li>
+
+                    <li sec:authorize="isAnonymous()" class="nav-item">
+                        <a class="nav-link" th:href="@{/login}" th:text="#{nav.agendar}">Agendar cita</a>
+                    </li>
+
                     <li sec:authorize="hasRole('CLIENTE')" class="nav-item">
-                        <a class="nav-link" th:href="@{/productos}">Productos</a>
+                        <a class="nav-link" th:href="@{/cliente/agendar}" th:text="#{nav.agendar}">Agendar cita</a>
                     </li>
                     <li sec:authorize="hasRole('ADMIN')" class="nav-item">
-                        <a class="nav-link" th:href="@{/admin/productos}">Productos</a>
+                        <a class="nav-link" th:href="@{/admin/agenda}" th:text="#{nav.agendar}">Agendar cita</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Galería</a>
-                    </li>
-                    <li class="nav-item">
                     <li sec:authorize="hasRole('CLIENTE')" class="nav-item">
-                        <a class="nav-link" th:href="@{/cliente/agendar}">Agendar cita</a>
+                        <a class="nav-link" th:href="@{/productos}" th:text="#{nav.productos}">Productos</a>
                     </li>
-
-                    <li class="nav-item">
                     <li sec:authorize="hasRole('ADMIN')" class="nav-item">
-                        <a class="nav-link" th:href="@{/admin/agenda}">Citas</a>
+                        <a class="nav-link" th:href="@{/admin/productos}" th:text="#{nav.productos}">Productos</a>
+                    </li>
+                    <li class="nav-item" sec:authorize="isAnonymous()">
+                        <a class="nav-link" th:href="@{/productos}" th:text="#{nav.productos}">Productos</a>
+                    </li>
+                    <li sec:authorize="hasRole('ADMIN')" class="nav-item">
+                        <a class="nav-link" th:href="@{/admin/deudas}" th:text="#{nav.deuda}">Deudas</a>
                     </li>
 
-
-                    <!-- Si el usuario está autenticado -->
+                    <li sec:authorize="hasRole('ADMIN')" class="nav-item">
+                        <a class="nav-link" th:href="@{/admin/ventas}">
+                            <i class="fa fa-cash-register"></i>
+                        </a>
+                    </li>
+                    <li sec:authorize="hasRole('CLIENTE')" class="nav-item">
+                        <a class="nav-link" th:href="@{/carrito}" th:title="#{nav.verCarrito}">
+                            <i class="fa fa-shopping-cart"></i>
+                        </a>
+                    </li>
+                    <li class="nav-item ms-lg-4 mt-3 mt-lg-0" sec:authorize="isAnonymous()">
+                        <a class="btn btn-primary custom-btn-login" th:href="@{/login}" th:text="#{nav.iniciarSesion}">Iniciar Sesión</a>
+                    </li>
                     <li class="nav-item dropdown ms-lg-4 mt-3 mt-lg-0" sec:authorize="isAuthenticated()">
-                        <a class="btn btn-outline-secondary dropdown-toggle" href="#" id="userDropdown" role="button"
+                        <a class="btn btn-outline-secondary dropdown-toggle" id="userDropdown" role="button"
                            data-bs-toggle="dropdown" aria-expanded="false">
-                            <span th:text="${nombreUsuario}">Usuario</span>
+                            <span  class="fas fa-user fa-lg"></span>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
                             <li>
-                                <a class="dropdown-item" th:href="@{/mi-cuenta}">Mi cuenta</a>
+                                <a class="dropdown-item" th:href="@{/mi-cuenta}" th:text="#{nav.miCuenta}">Mi cuenta</a>
                             </li>
                             <li>
                                 <form th:action="@{/logout}" method="post">
-                                    <button type="submit" class="dropdown-item">Cerrar sesión</button>
+                                    <button type="submit" class="dropdown-item" th:text="#{nav.cerrarSesion}">Cerrar sesión</button>
                                 </form>
                             </li>
                         </ul>
                     </li>
                 </ul>
+                <div class="language-selector ms-lg-4 mt-3 mt-lg-0">
+                    <form method="get" th:action="@{/(lang=${param.lang})}">
+                        <select name="lang" onchange="this.form.submit()" class="form-select form-select-sm">
+                            <option value="es" th:selected="${#locale.language == 'es'}">Español</option>
+                            <option value="en" th:selected="${#locale.language == 'en'}">English</option>
+                            <option value="pt" th:selected="${#locale.language == 'pt'}">Português</option>
+                        </select>
+                    </form>
+                </div>
             </div>
         </div>
     </nav>
@@ -70,8 +98,8 @@
 
 <div class="main-container">
     <div class="personal-info-section mb-5">
-        <h2 class="section-title text-center mb-4">Información Personal</h2>
-        <p class="section-description text-center mb-5">Gestiona tu información, la privacidad y la seguridad para mejorar tu experiencia.</p>
+        <h2 class="section-title text-center mb-4" th:text="#{miCuenta.infoPersonal.titulo}">Información Personal</h2>
+        <p class="section-description text-center mb-5" th:text="#{miCuenta.infoPersonal.descripcion}">Gestiona tu información, la privacidad y la seguridad para mejorar tu experiencia.</p>
 
         <div class="card shadow-sm rounded-lg p-4 mx-auto" style="max-width: 600px;">
             <div class="card-body">
@@ -81,24 +109,23 @@
                 </div>
 
                 <div class="info-item d-flex justify-content-between align-items-center mb-3 pb-2 border-bottom">
-                    <span class="info-label">Nombre:</span>
+                    <span class="info-label" th:text="#{miCuenta.infoPersonal.nombre}">Nombre:</span>
                     <span class="info-value" th:text="${usuario.apellido +' '+ usuario.nombre}"></span>
                 </div>
 
                 <div class="info-item d-flex justify-content-between align-items-center mb-3 pb-2 border-bottom">
-                    <span class="info-label">Número de Telefono:</span>
+                    <span class="info-label" th:text="#{miCuenta.infoPersonal.telefono}">Número de Telefono:</span>
                     <span class="info-value" th:text="${usuario.telefono}"></span>
                 </div>
 
-
                 <div class="info-item d-flex justify-content-between align-items-center mb-4 pb-2 border-bottom">
-                    <span class="info-label">Correo electronico:</span>
+                    <span class="info-label" th:text="#{miCuenta.infoPersonal.correo}">Correo electronico:</span>
                     <span class="info-value" th:text="${usuario.email}"></span>
                 </div>
 
                 <div class="d-flex justify-content-center">
-                    <button class="btn btn-secondary custom-btn-secondary mr-3">Cambiar contraseña</button>
-                    <button class="btn btn-secondary custom-btn-secondary">Cambiar correo</button>
+                    <button class="btn btn-secondary custom-btn-secondary mr-3" th:text="#{miCuenta.infoPersonal.cambiarContrasena}">Cambiar contraseña</button>
+                    <button class="btn btn-secondary custom-btn-secondary" th:text="#{miCuenta.infoPersonal.cambiarCorreo}">Cambiar correo</button>
                 </div>
             </div>
         </div>
@@ -106,22 +133,22 @@
 
     <div class="appointments-section container mt-5" sec:authorize="hasRole('CLIENTE')">
         <div class="d-flex justify-content-center mb-4">
-            <a class="btn btn-primary custom-agenda-btn" th:href="@{/cliente/agendar}" sec:authorize="hasRole('CLIENTE')">Agendar cita</a>
+            <a class="btn btn-primary custom-agenda-btn" th:href="@{/cliente/agendar}" sec:authorize="hasRole('CLIENTE')" th:text="#{miCuenta.citas.agendar}">Agendar cita</a>
         </div>
         <div class="horizontal-line mb-4"></div>
 
         <div class="d-flex justify-content-start mb-4 appointment-tabs">
-            <button class="btn btn-light inactive-tab">Histórico de citas</button>
+            <button class="btn btn-light inactive-tab" th:text="#{miCuenta.citas.historico}">Histórico de citas</button>
         </div>
 
         <div class="table-responsive">
             <table class="table table-bordered appointment-table">
                 <thead>
                 <tr>
-                    <th>Fecha y hora de la cita</th>
-                    <th>Servicio</th>
-                    <th>Estado de la cita</th>
-                    <th>Acción</th>
+                    <th th:text="#{miCuenta.citas.fechaHora}">Fecha y hora de la cita</th>
+                    <th th:text="#{miCuenta.citas.servicio}">Servicio</th>
+                    <th th:text="#{miCuenta.citas.estado}">Estado de la cita</th>
+                    <th th:text="#{miCuenta.citas.accion}">Acción</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -129,75 +156,80 @@
                     <td th:text="${#temporals.format(cita.fecha, 'dd/MM/yyyy HH:mm')}">07 / Ene / 2025 10:00am</td>
                     <td th:text="${cita.servicio.nombre}">Servicio 1</td>
                     <td>
-                        <span th:if="${cita.estado == 'REALIZADA'}" class="status-pill status-realizada">Realizada</span>
-                        <span th:if="${cita.estado == 'CANCELADA'}" class="status-pill status-cancelada">Cancelada</span>
-                        <span th:if="${cita.estado == 'PENDIENTE'}" class="status-pill status-pendiente">Pendiente</span>
+                        <span th:if="${cita.estado == 'REALIZADA'}" class="status-pill status-realizada" th:text="#{miCuenta.citas.estado.realizada}">Realizada</span>
+                        <span th:if="${cita.estado == 'CANCELADA'}" class="status-pill status-cancelada" th:text="#{miCuenta.citas.estado.cancelada}">Cancelada</span>
+                        <span th:if="${cita.estado == 'PENDIENTE'}" class="status-pill status-pendiente" th:text="#{miCuenta.citas.estado.pendiente}">Pendiente</span>
                     </td>
                     <td>
                         <form th:if="${cita.estado == 'PENDIENTE'}" th:action="@{/cliente/cancelar-cita}" method="post">
                             <input type="hidden" name="citaId" th:value="${cita.id}"/>
-                            <button type="submit" class="btn btn-danger btn-sm">Cancelar</button>
+                            <button type="submit" class="btn btn-danger btn-sm" th:text="#{miCuenta.citas.cancelar}">Cancelar</button>
                         </form>
-                        <span th:if="${cita.estado != 'PENDIENTE'}">-</span>
+                        <span th:if="${cita.estado != 'PENDIENTE'}" th:text="#{miCuenta.citas.noAccion}">-</span>
                     </td>
                 </tr>
                 </tbody>
             </table>
         </div>
     </div>
-</div>
-<!-- Historial de Compras en mi-cuenta.html -->
-<div class="container purchase-history-section mt-5">
-    <h2 class="section-title-smaller text-center mb-4">Historial de Compras</h2>
-    <div class="table-responsive purchase-history-table">
-        <table class="table table-borderless mb-0">
-            <thead>
-            <tr>
-                <th scope="col"># Orden</th>
-                <th scope="col">Fecha</th>
-                <th scope="col">Productos</th>
-                <th scope="col">Total</th>
-                <th scope="col">Estado</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="venta : ${ventas}">
-                <td data-label="# Orden" th:text="${venta.id}">1001</td>
-                <td data-label="Fecha" th:text="${#temporals.format(venta.fecha, 'dd-MM-yyyy HH:mm')}">2025-05-23</td>
-                <td data-label="Productos">
-                    <ul class="purchase-product-list">
-                        <li th:each="item : ${venta.items}" th:text="${item.producto.nombre + ' (x' + item.cantidad + ')'}">
-                            Producto A (x2)
-                        </li>
-                    </ul>
-                </td>
-                <td data-label="Total" th:text="${#numbers.formatDecimal(venta.total, 0, 'COMMA', 0, 'POINT')}">$150.00</td>
-                <td data-label="Estado" class="purchase-status-cell">
-                    <span th:classappend="${venta.estado == 'ENTREGADO' ? 'badge-success' : (venta.estado == 'EN_PROCESO' ? 'badge-warning' : 'badge-danger')}"
-                          class="purchase-status-badge"
-                          th:text="${venta.estado}">En proceso</span>
-                </td>
-            </tr>
-            <tr th:if="${ventas == null or #lists.isEmpty(ventas)}">
-                <td colspan="5" class="text-center py-4">No tienes compras registradas aún.</td>
-            </tr>
-            </tbody>
-        </table>
+
+    <div class="container purchase-history-section mt-5">
+        <h2 class="section-title-smaller text-center mb-4" th:text="#{miCuenta.compras.titulo}">Historial de Compras</h2>
+        <div class="table-responsive purchase-history-table">
+            <table class="table table-borderless mb-0">
+                <thead>
+                <tr>
+                    <th scope="col" th:text="#{miCuenta.compras.orden}"># Orden</th>
+                    <th scope="col" th:text="#{miCuenta.compras.fecha}">Fecha</th>
+                    <th scope="col" th:text="#{miCuenta.compras.productos}">Productos</th>
+                    <th scope="col" th:text="#{miCuenta.compras.total}">Total</th>
+                    <th scope="col" th:text="#{miCuenta.compras.estado}">Estado</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="venta : ${ventas}">
+                    <td data-label="# Orden" th:text="${venta.id}">1001</td>
+                    <td data-label="Fecha" th:text="${#temporals.format(venta.fecha, 'dd-MM-yyyy HH:mm')}">2025-05-23</td>
+                    <td data-label="Productos">
+                        <ul class="purchase-product-list">
+                            <li th:each="item : ${venta.items}" th:text="${item.producto.nombre + ' (x' + item.cantidad + ')'}">
+                                Producto A (x2)
+                            </li>
+                        </ul>
+                    </td>
+                    <td data-label="Total" th:text="${#numbers.formatDecimal(venta.total, 0, 'COMMA', 0, 'POINT')}">$150.00</td>
+                    <td data-label="Estado" class="purchase-status-cell">
+                        <span th:classappend="${venta.estado == 'ENTREGADO' ? 'badge-success' : (venta.estado == 'EN_PROCESO' ? 'badge-warning' : 'badge-danger')}"
+                              class="purchase-status-badge"
+                              th:text="#{${'miCuenta.compras.estado.' + venta.estado.toLowerCase()}}">En proceso</span>
+                    </td>
+                </tr>
+                <tr th:if="${ventas == null or #lists.isEmpty(ventas)}">
+                    <td colspan="5" class="text-center py-4" th:text="#{miCuenta.compras.noCompras}">No tienes compras registradas aún.</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>
 
-<footer class="footer mt-5 p-3 d-flex justify-content-between align-items-center">
-    <div class="footer-brand">Prestigio</div>
-    <div class="footer-copyright">
-        Copyright © 2024 Website. All rights reserved.
-    </div>
-    <div class="social-icons">
-        <a href="#" class="social-icon-link mr-2"><i class="fab fa-facebook-f"></i></a>
-        <a href="#" class="social-icon-link mr-2"><i class="fab fa-instagram"></i></a>
-        <a href="#" class="social-icon-link mr-2"><i class="fab fa-linkedin-in"></i></a>
-        <a href="#" class="social-icon-link"><i class="fab fa-youtube"></i></a>
+
+<footer class="footer">
+    <div class="container d-flex flex-column flex-md-row justify-content-between align-items-center py-4">
+        <div class="footer-left">
+            <img th:src="@{/recursos/logo.png}" alt="Prestigio Logo" class="footer-logo">
+        </div>
+        <div class="footer-center text-center text-md-start my-3 my-md-0">
+            <p>&copy; 2024 Website. All rights reserved.</p>
+        </div>
+        <div class="footer-right">
+            <a href="https://www.instagram.com/prestigionailspa?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank" aria-label="Instagram">
+                <i class="fab fa-instagram footer-icon"></i>
+            </a>
+        </div>
     </div>
 </footer>
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js" integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO" crossorigin="anonymous"></script>
 <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>

@@ -1,73 +1,101 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-
+<html lang="es" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
   <meta charset="UTF-8">
-
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
-  <link rel="stylesheet" th:href="@{/css/index.css}" >
+  <title th:text="#{titulo.pagina}">Prestigio</title>
+
+  <!-- Bootstrap 5 CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css">
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+  <!-- Estilos personalizados -->
+  <link rel="stylesheet" th:href="@{/css/index.css}">
   <link rel="stylesheet" th:href="@{/css/navbar.css}">
-  <link >
-  <title>Prestigio</title>
+  <link rel="stylesheet" th:href="@{/css/footer.css}">
 </head>
 <body>
 <header>
   <nav class="navbar navbar-expand-lg bg-white shadow-sm py-3">
     <div class="container">
-      <a class="navbar-brand" href="#">
+      <a class="navbar-brand" th:href="@{/}">
         <img th:src="@{/recursos/logo.png}" alt="Prestigio Logo" height="40">
-
       </a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+              aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
         <ul class="navbar-nav align-items-lg-center">
           <li class="nav-item">
-            <a class="nav-link active" aria-current="page" th:href="@{/}">Inicio</a>
-          </li>
-          <li sec:authorize="hasRole('CLIENTE')" class="nav-item">
-            <a class="nav-link" th:href="@{/productos}">Productos</a>
-          </li>
-          <li sec:authorize="hasRole('ADMIN')" class="nav-item">
-            <a class="nav-link" th:href="@{/admin/productos}">Productos</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Galería</a>
-          </li>
-          <li class="nav-item">
-          <li sec:authorize="hasRole('CLIENTE')" class="nav-item">
-            <a class="nav-link" th:href="@{/cliente/agendar}">Agendar cita</a>
+            <a class="nav-link active" aria-current="page" th:href="@{/}" th:text="#{nav.inicio}">Inicio</a>
           </li>
 
-          <li class="nav-item">
-          <li sec:authorize="hasRole('ADMIN')" class="nav-item">
-            <a class="nav-link" th:href="@{/admin/agenda}">Citas</a>
+          <li sec:authorize="isAnonymous()" class="nav-item">
+            <a class="nav-link" th:href="@{/login}" th:text="#{nav.agendar}">Agendar cita</a>
           </li>
 
+          <li sec:authorize="hasRole('CLIENTE')" class="nav-item">
+            <a class="nav-link" th:href="@{/cliente/agendar}" th:text="#{nav.agendar}">Agendar cita</a>
+          </li>
+          <li sec:authorize="hasRole('ADMIN')" class="nav-item">
+            <a class="nav-link" th:href="@{/admin/agenda}" th:text="#{nav.agendar}">Agendar cita</a>
+          </li>
+          <li sec:authorize="hasRole('CLIENTE')" class="nav-item">
+            <a class="nav-link" th:href="@{/productos}" th:text="#{nav.productos}">Productos</a>
+          </li>
+          <li sec:authorize="hasRole('ADMIN')" class="nav-item">
+            <a class="nav-link" th:href="@{/admin/productos}" th:text="#{nav.productos}">Productos</a>
+          </li>
+          <li class="nav-item" sec:authorize="isAnonymous()">
+            <a class="nav-link" th:href="@{/productos}" th:text="#{nav.productos}">Productos</a>
+          </li>
+            <li sec:authorize="hasRole('ADMIN')" class="nav-item">
+              <a class="nav-link" th:href="@{/admin/deudas}" th:text="#{nav.deuda}">Deudas</a>
+            </li>
+
+          <li sec:authorize="hasRole('ADMIN')" class="nav-item">
+            <a class="nav-link" th:href="@{/admin/ventas}">
+              <i class="fa fa-cash-register"></i>
+            </a>
+          </li>
+          <li sec:authorize="hasRole('CLIENTE')" class="nav-item">
+            <a class="nav-link" th:href="@{/carrito}" th:title="#{nav.verCarrito}">
+              <i class="fa fa-shopping-cart"></i>
+            </a>
+          </li>
           <li class="nav-item ms-lg-4 mt-3 mt-lg-0" sec:authorize="isAnonymous()">
-            <a class="btn btn-primary custom-btn-login" th:href="@{/login}">Iniciar Sesión</a>
+            <a class="btn btn-primary custom-btn-login" th:href="@{/login}" th:text="#{nav.iniciarSesion}">Iniciar Sesión</a>
           </li>
-
-          <!-- Si el usuario está autenticado -->
           <li class="nav-item dropdown ms-lg-4 mt-3 mt-lg-0" sec:authorize="isAuthenticated()">
-            <a class="btn btn-outline-secondary dropdown-toggle" href="#" id="userDropdown" role="button"
+            <a class="btn btn-outline-secondary dropdown-toggle" id="userDropdown" role="button"
                data-bs-toggle="dropdown" aria-expanded="false">
-              <span th:text="${nombreUsuario}">Usuario</span>
+              <span  class="fas fa-user fa-lg"></span>
             </a>
             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
               <li>
-                <a class="dropdown-item" th:href="@{/mi-cuenta}">Mi cuenta</a>
+                <a class="dropdown-item" th:href="@{/mi-cuenta}" th:text="#{nav.miCuenta}">Mi cuenta</a>
               </li>
               <li>
                 <form th:action="@{/logout}" method="post">
-                  <button type="submit" class="dropdown-item">Cerrar sesión</button>
+                  <button type="submit" class="dropdown-item" th:text="#{nav.cerrarSesion}">Cerrar sesión</button>
                 </form>
               </li>
             </ul>
           </li>
         </ul>
+        <div class="language-selector ms-lg-4 mt-3 mt-lg-0">
+          <form method="get" th:action="@{/(lang=${param.lang})}">
+            <select name="lang" onchange="this.form.submit()" class="form-select form-select-sm">
+              <option value="es" th:selected="${#locale.language == 'es'}">Español</option>
+              <option value="en" th:selected="${#locale.language == 'en'}">English</option>
+              <option value="pt" th:selected="${#locale.language == 'pt'}">Português</option>
+            </select>
+          </form>
+        </div>
       </div>
     </div>
   </nav>
@@ -76,23 +104,39 @@
 <section class="hero">
   <div class="overlay-p">
     <div class="overlay">
-      <h3>Descubre la belleza que<br>resalta lo mejor de ti</h3>
-      <a th:href="@{/productos}"><button>Productos</button></a>
+      <h3 th:text="#{hero.titulo}">Descubre la belleza que<br>resalta lo mejor de ti</h3>
+      <a th:href="@{/productos}"><button th:text="#{boton.productos}">Productos</button></a>
     </div>
   </div>
 </section>
 
 <section class="info">
   <div class="text">
-    <h3>Todo lo que amas:<br><span>belleza, cuidado y atención.</span></h3>
-    <a th:href="@{/admin/agenda}"><button>Agenda tu cita</button></a>
-
+    <h3 th:text="#{info.titulo}">Todo lo que amas:<br><span>belleza, cuidado y atención.</span></h3>
+    <a th:href="@{/admin/agenda}"><button th:text="#{boton.agenda}">Agenda tu cita</button></a>
   </div>
   <div class="image">
     <img th:src="@{/recursos/inicio-secundario.png}" alt="Mujer aplicando crema">
   </div>
 </section>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js" integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO" crossorigin="anonymous"></script>
+<footer class="footer">
+  <div class="container d-flex flex-column flex-md-row justify-content-between align-items-center py-4">
+    <div class="footer-left">
+      <img th:src="@{/recursos/logo.png}" alt="Prestigio Logo" class="footer-logo">
+    </div>
+    <div class="footer-center text-center text-md-start my-3 my-md-0">
+      <p>&copy; 2024 Website. All rights reserved.</p>
+    </div>
+    <div class="footer-right">
+      <a href="https://www.instagram.com/prestigionailspa?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank" aria-label="Instagram">
+        <i class="fab fa-instagram footer-icon"></i>
+      </a>
+    </div>
+  </div>
+</footer>
+
+<!-- Bootstrap 5 JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
