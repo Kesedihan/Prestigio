@@ -90,7 +90,6 @@ public class DeudaController {
      * Maneja las solicitudes POST a la ruta "/admin/deudas/abono" para registrar un abono a una deuda existente.
      * Este método recibe el ID de la deuda a la que se va a abonar y el monto del abono.
      * Crea una nueva instancia de {@link Abono}, la asocia a la deuda y la guarda en la base de datos.
-     *
      * @param deudaId El ID de la deuda a la que se va a registrar el abono.
      * @param monto   El monto del abono que se va a registrar.
      * @return Una redirección a la página de administración de deudas ("/admin/deudas") después de registrar el abono.

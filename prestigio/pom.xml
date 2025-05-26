@@ -87,6 +87,21 @@
 			<artifactId>thymeleaf-extras-java8time</artifactId>
 			<version>3.0.4.RELEASE</version>
 		</dependency>
+		<!--
+https://mvnrepository.com/artifact/net.sf.jasperreports/jasperreports -->
+		<dependency>
+			<groupId>net.sf.jasperreports</groupId>
+			<artifactId>jasperreports</artifactId>
+			<version>7.0.0</version>
+		</dependency>
+
+		<!--
+		https://mvnrepository.com/artifact/net.sf.jasperreports/jasperreports-pdf -->
+		<dependency>
+			<groupId>net.sf.jasperreports</groupId>
+			<artifactId>jasperreports-pdf</artifactId>
+			<version>7.0.0</version>
+		</dependency>
 
 
 	</dependencies>

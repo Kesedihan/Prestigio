@@ -67,7 +67,6 @@ public class CitaClienteController {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         // El nombre de autenticación en este contexto es el email del usuario.
         String email = auth.getName();
-        // Busca el usuario en la base de datos por su email. Si no se encuentra, 'usuario' será null.
         Usuario usuario = usuarioRepository.findByEmail(email).orElse(null);
 
         // Recupera todos los servicios activos (estado=true)
