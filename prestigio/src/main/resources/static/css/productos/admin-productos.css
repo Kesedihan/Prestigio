@@ -31,7 +31,7 @@ body {
 }
 
 .app-form-title, .app-section-title {
-    color: #007bff; /* Color azul para los subtítulos */
+    color: #c9a06c; /* Color azul para los subtítulos */
     font-size: 1.5rem; /* Tamaño de fuente más grande */
     margin-bottom: 20px;
     font-weight: 600;
@@ -66,10 +66,9 @@ body {
 }
 
 .app-input:focus {
-    border-color: #80bdff;
+    border-color: #c9a06c;
     outline: 0;
-    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
-}
+    box-shadow: 0 0 0 0.2rem rgba(201, 160, 108, 0.25);}
 
 .app-button {
     display: inline-block;
@@ -208,7 +207,7 @@ body {
 }
 
 .app-card-title {
-    color: #007bff;
+    color: #c9a06c ;
     font-weight: 600;
     margin-bottom: 10px;
     font-size: 1.25rem;

@@ -37,7 +37,7 @@ body {
     bottom: 0;
     width: 80px;
     height: 4px;
-    background-color: #007bff; /* Primary blue underline */
+    background-color: #c9a06c ; /* Primary blue underline */
     border-radius: 2px;
 }
 
@@ -48,7 +48,7 @@ body {
     gap: 15px; /* Space between form elements */
     margin-bottom: 40px;
     padding: 25px;
-    background-color: #e9f7ef; /* Light green background for add form */
+    background-color: #ecd2a1; /* Light green background for add form */
     border-radius: 10px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
     align-items: center; /* Vertically align items */
@@ -58,7 +58,7 @@ body {
 .debt-input {
     flex-grow: 1; /* Allows inputs to grow */
     padding: 12px 18px;
-    border: 1px solid #ced4da;
+    border: 1px solid #c9a06c;
     border-radius: 8px;
     font-size: 1rem;
     color: #495057;
@@ -69,13 +69,9 @@ body {
 }
 
 .debt-input:focus {
-    border-color: #007bff;
+    border-color: #c9a06c ;
     outline: none;
     box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
-}
-
-.debt-input-inline {
-    /* Specific styles for inline inputs if needed, currently covered by .debt-input */
 }
 
 /* Buttons */
@@ -103,12 +99,12 @@ body {
 }
 
 .debt-button-primary {
-    background-color: #007bff; /* Blue */
-    color: #fff;
+    background-color: #ecd2a1 ; /* Blue */
+    color: #444;
 }
 
 .debt-button-primary:hover {
-    background-color: #0056b3;
+    background-color: #ecd2a1 ;
     transform: translateY(-2px);
     box-shadow: 0 4px 10px rgba(0, 123, 255, 0.3);
 }
@@ -146,12 +142,12 @@ body {
 }
 
 .debt-card-header {
-    background-color: #007bff; /* Primary blue header */
-    color: #fff;
+    background-color: #ecd2a1 ; /* Primary blue header */
+    color: #444;
     padding: 15px 20px;
     font-size: 1.25rem;
     font-weight: 600;
-    border-bottom: 1px solid #0056b3;
+    border-bottom: 1px solid #c9a06c ;
     text-align: center;
 }
 

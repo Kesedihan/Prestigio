@@ -13,5 +13,6 @@ public interface ProductoRepository extends JpaRepository<Producto, Long> {
     List<Producto> findByActivoTrueAndTipo(String tipo);
     List<Producto> findByActivoTrueAndPrecioBetween(BigDecimal min, BigDecimal max);
     List<Producto> findByActivoTrueAndTipoAndPrecioBetween(String tipo, BigDecimal min, BigDecimal max);
+
 }
 

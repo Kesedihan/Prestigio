@@ -8,4 +8,5 @@ import java.util.List;
 
 public interface VentaItemRepository extends JpaRepository<VentaItem, Long> {
     List<VentaItem> findByVenta(Venta venta);
+
 }

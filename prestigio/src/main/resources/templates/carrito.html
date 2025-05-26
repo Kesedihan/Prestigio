@@ -181,7 +181,13 @@
         rows.forEach(row => {
             let checkbox = row.querySelector('input[name="selectedProducts"]');
             let cantidad = parseInt(row.querySelector('input[type="number"]').value);
-            let precio = parseFloat(row.querySelector('.cart-product-price').textContent.replace(/[^\d.]/g, ''));
+
+            // --- ¡ÚNICA LÍNEA CORREGIDA AQUÍ! ---
+            // Se cambia cómo se parsea el precio para manejar el formato colombiano (punto como miles, coma como decimal)
+            let precioText = row.querySelector('.cart-product-price').textContent;
+            let precio = parseFloat(precioText.replace(/\./g, '').replace(',', '.')); // <-- Esta es la corrección
+            // -----------------------------------
+
             if (checkbox.checked) {
                 subtotal += precio * cantidad;
                 totalItems += cantidad;

@@ -14,6 +14,7 @@ public class CarritoItem {
     private Carrito carrito;
 
     @ManyToOne
+    @JoinColumn(name = "producto_id", foreignKey = @ForeignKey(name = "fk_carrito_item_producto"))
     private Producto producto;
 
     private int cantidad;

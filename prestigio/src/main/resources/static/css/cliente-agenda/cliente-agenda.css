@@ -236,31 +236,6 @@ body {
 }
 
 
-/* Footer Styles (asumiendo que tendrás un footer similar al de tu página de inicio) */
-.footer {
-    background-color: #e0e0e0;
-    border-top: 1px solid #d0d0d0;
-    color: var(--secondary-text-color);
-    font-size: 0.9em;
-    padding: 15px 30px;
-    text-align: center;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-top: auto; /* Empuja el footer al final de la página */
-}
-
-.footer-brand {
-    font-family: 'Georgia', serif;
-    font-size: 1.5em;
-    color: var(--primary-text-color);
-    margin-right: 20px;
-}
-
-.footer-copyright {
-    flex-grow: 1;
-    text-align: center;
-}
 
 .social-icons a {
     color: var(--secondary-text-color);
@@ -296,15 +271,6 @@ body {
         width: 100%;
         margin-right: 0;
         margin-bottom: 10px;
-    }
-    .footer {
-        flex-direction: column;
-        font-size: 0.8em;
-        padding: 10px 15px;
-    }
-    .footer-brand {
-        margin-bottom: 10px;
-        margin-right: 0;
     }
     .social-icons {
         margin-top: 10px;
