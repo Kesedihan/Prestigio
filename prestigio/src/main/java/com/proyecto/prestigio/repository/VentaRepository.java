@@ -8,5 +8,4 @@ import java.util.List;
 
 public interface VentaRepository extends JpaRepository<Venta, Long> {
     List<Venta> findByUsuarioOrderByFechaDesc(Usuario usuario);
-    List<Venta> findByEstado(String estado);
 }

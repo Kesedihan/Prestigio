@@ -15,7 +15,6 @@ public interface RolService {
 
     /**
      * Define la operación para crear y persistir un nuevo objeto de rol en el sistema.
-     *
      * @param rol El objeto {@link Rol} que contiene la información del nuevo rol a ser creado.
      * @return El objeto {@link Rol} persistido por la base de datos, incluyendo cualquier ID generado
      * y otros metadatos de persistencia.
